@@ -1,0 +1,105 @@
+<!-- <form [formGroup]="CardAdd"> -->
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="card-body">
+                <div class="row">
+                    <div class="card text-dark  mb-3" style="max-width: 40rem;">
+                        <nav class="navbar navbar-light bg-light">
+                            <div class="container-fluid">
+                                <span class="navbar-brand">เลือกที่อยู่จัดส่ง</span>
+                                <span class="spacer"></span>
+                                <button mat-raised-button color="primary" (click)=" openAddAddress()"> <mat-icon
+                                        class="mr">add</mat-icon>เพิ่มที่อยู่ใหม่</button>
+                            </div>
+                        </nav>
+                        <div class="card-body">
+                            <div *ngFor="let address of AddressList,let i = index">
+                                <div id="{{address.id_address}}" class="card text-dark bg-light mb-3"
+                                    style="max-width: 30rem;">
+                                    <mat-toolbar color="primary">
+                                        <span>
+                                            <input [(ngModel)]="chekclik[i]"
+                                                (click)="choosAddress(address.id_address,i)"
+                                                class="form-check-input me-1" type="checkbox" aria-label="...">
+                                            ที่อยู่ที่จัดส่ง</span>
+                                        <span class="spacer"></span>
+                                        <button mat-icon-button mat-icon-button [mat-menu-trigger-for]="manage">
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                    </mat-toolbar>
+                                    <div class="card-body">
+                                        <h3 class="card-title">{{address.firstname_address}}
+                                            &nbsp;{{address.lastname_address}}</h3>
+                                        <p class="card-text">
+                                            บ้านเลขที่&nbsp;{{address.housenumber_address}}&nbsp;หมู่&nbsp;{{address.village_address}}&nbsp;บ้าน/อาคาร.{{address.housename_address}}
+                                            &nbsp;ซอย.{{address.subdistrict_address}}&nbsp;ถนน/แยก.{{address.road_address}}&nbsp;ตำบล/เขต.{{address.district_address}}&nbsp;อำเภอ/แขวง.{{address.prefecture_address}}&nbsp;จังหวัด.{{address.province_address}}&nbsp;
+                                            {{address.postcode_address}}&nbsp;เบอร์โทร.{{address.phone_address}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <mat-menu #manage="matMenu">
+                                    <div class="container">
+                                        <button mat-button color="primary"
+                                            (click)=" EditAddress(address.id_address)">edit</button><br>
+                                        <button mat-button color="warn"
+                                            (click)="deleteProfile(address.id_address)">delete</button>
+                                    </div>
+                                </mat-menu>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <br>
+            <div class="card" style="max-width: 50rem;">
+                <div class="container">
+                    <br>
+                    <nav class="navbar navbar-light bg-light mb-3" style="max-width: 40rem">
+                        <div class="container-fluid">
+                            <a class="navbar-brand">ตระกร้าสินค้า</a>
+                        </div>
+                    </nav>
+                    <div *ngFor="let card of CardList,let i = index">
+                        <div class="card mb-3" style="  max-width: 40em;flex-direction: row;box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; background-color: var(--bs-primary-bg-subtle)!important ;color: #000000;">
+                            <img src="{{card.productModel.image_product}}" class="card-img-top" alt="..."
+                                style="max-width: 25%;margin: auto;padding: 0.5em;border-radius: 0.7em;">
+                            <div class="card-body" style="    display: flex; justify-content: space-between;">
+                                <div class="text-section" style=" max-width: 60%;">
+                                    <h2 class="card-title">{{card.productModel.name_product}}</h2>
+                                    <p class="card-text">{{card.productModel.detail_product}} .</p>
+                                    <div class="input-group mb-3" style="width: 130px;">
+                                        <button class="input-group-text bg-white" (click)="decrease(i)">-</button>
+                                        <input type="text" class="form-control"
+                                            aria-label="Amount (to the nearest dollar)" style="text-align: center;"
+                                            [value]="counter2[i]">
+                                        <button class="input-group-text bg-white" (click)="increase(i)">+</button>
+                                    </div>
+                                </div>
+                                <div class="cta-section" style="    max-width: 40%;display: flex;flex-direction: column;align-items: flex-end;justify-content: space-between;">
+                                    <div><button mat-icon-button color="warn" (click)=" deleteCard(card.id_card)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button></div>
+                                    <div>฿{{card.productModel.price_product}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="navbar navbar-light bg-light">
+                        <div class="container-fluid">
+                            <!-- <button mat-button>ยอดชำระเงิน: ฿{{total}}.00</button> -->
+                                <h4>ยอดชำระเงิน: ฿{{total}}.00</h4>
+                        </div>
+                        <div class="container-fluid">
+                            <button mat-raised-button color="warn" style="width: 100%;"
+                                routerLink="/submit-card/{{dataIdAddress}}" >สั่งซื้อสินค้าในตระกร้า</button>
+                        </div>
+                    </nav><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- </form> -->

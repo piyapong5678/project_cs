@@ -1,0 +1,36 @@
+<mat-card>
+    <mat-card-content>
+        <div class="header">
+            <h2>เข้าสู่ระบบ</h2>
+        </div>
+        <form (ngSubmit)="onLogin()" name="loginForm" [formGroup]="loginForm">
+            <div class="email-input">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>อีเมล</mat-label>
+                    <input formControlName="email" matInput required/>
+                    <mat-error *ngIf="loginForm.get('email')?.errors">
+                        กรุณาระบุอีเมล.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>รหัสผ่าน</mat-label>
+                    <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <mat-error *ngIf="loginForm.get('password')?.errors">
+                        กรุณาระบุรหัสผ่าน.
+                    </mat-error>
+                </mat-form-field>
+                <button mat-flat-button color="primary" style="width: 100%;">เข้าสู่ระบบ</button><br><br>
+                <span style="cursor: pointer;" class="aLink">ลืมรหัสผ่าน</span>
+                <span style="cursor: pointer;" class="aLink1"  (click)="openRegisterEmForm()">สมัครสมาชิก</span>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card> 
+
+
+
+

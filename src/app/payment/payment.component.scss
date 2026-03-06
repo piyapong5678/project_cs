@@ -1,0 +1,39 @@
+// .card {
+//     max-width: 40em;
+//     flex-direction: row;
+//     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+// }
+// .card img {
+//     max-width: 25%;
+//     margin: auto;
+//     padding: 0.5em;
+//     border-radius: 0.7em;
+// }
+
+// .card-body {
+//     display: flex;
+//     justify-content: space-between;
+// }
+
+// .text-section {
+//     max-width: 60%;
+// }
+
+// .cta-section {
+//     max-width: 40%;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: flex-end;
+//     justify-content: space-between;
+// }
+
+@media screen and (max-width: 475px) {
+    .card {
+        font-size: 0.9em;
+    }
+}
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+

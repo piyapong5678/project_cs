@@ -1,0 +1,42 @@
+
+<div class="container" style="display: flex;justify-content: center;flex-direction: row;">
+    <div class="card" style="max-width:  60rem;">
+        <mat-toolbar>
+            <span>ที่อยู่จัดส่ง</span>&nbsp;&nbsp;
+            <span class="spacer"></span>
+            <button mat-raised-button color="primary" (click)=" openAddAddress()"> <mat-icon class="mr">add</mat-icon>เพิ่มที่อยู่ใหม่</button>
+        </mat-toolbar>
+        <div class="card-body">
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div *ngFor="let address of AddressList">
+                    <div class="col">
+                        <div class="card text-dark bg-light mb-3" style="max-width: 40rem;">
+                            <mat-toolbar color="primary">
+                                <span>ที่อยู่จัดส่ง</span>
+                                <span class="spacer"></span>
+                                <button mat-icon-button [mat-menu-trigger-for]="manage">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                            </mat-toolbar>
+                            <div class="card-body">
+                                <h3 class="card-title">{{address.firstname_address}} &nbsp;{{address.lastname_address}}</h3>
+                                <p class="card-text">บ้านเลขที่&nbsp;{{address.housenumber_address}}&nbsp;หมู่&nbsp;{{address.village_address}}&nbsp;บ้าน/อาคาร.{{address.housename_address}}
+                                    &nbsp;ซอย.{{address.subdistrict_address}}&nbsp;ถนน/แยก.{{address.road_address}}&nbsp;ตำบล/เขต.{{address.district_address}}&nbsp;อำเภอ/แขวง.{{address.prefecture_address}}&nbsp;จังหวัด.{{address.province_address}}&nbsp;
+                                    {{address.postcode_address}}&nbsp;เบอร์โทร.{{address.phone_address}} </p>
+                            </div>
+                        </div>
+                    </div>
+                    <mat-menu #manage="matMenu">
+                        <div class="container">
+                            <button mat-button color="primary" (click)="EditAddress(address.id_address)">edit</button><br>
+                            <button mat-button color="warn" (click)="deleteProfile(address.id_address)">delete</button>
+                        </div>
+                    </mat-menu>
+                </div>
+        </div>
+        </div>
+    </div>
+
+
+</div> 
+

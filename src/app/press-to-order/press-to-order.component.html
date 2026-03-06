@@ -1,0 +1,70 @@
+
+
+<div class="container">
+    <form [formGroup]="Card">
+        <br>
+        <div class="card mb-3"
+            style="max-width: 1500px; box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.9) 0px 0px 0px 1px;">
+            <div class="row g-0">
+                <div class="col-md-5">
+                    <div class="container">
+                        &nbsp;&nbsp;&nbsp;<img src="{{ProductList.image_product}}"
+                            style=" box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;"
+                            class="img-fluid rounded-start" alt="...">
+                        <img src="../../image/8850477112513.jpg" alt="">
+                    </div><br>
+                    <!-- <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-3">
+                            <img src="./assets/image/88.jpg"
+                                style="width: 100px;  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;"
+                                class="img-fluid rounded-start" alt="..."><br>
+                        </div>
+                        <div class="col-3">
+                            <img src="./assets/image/88.jpg"
+                                style="width: 100px;  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;"
+                                class="img-fluid rounded-start" alt="..."><br>
+                        </div>
+                        <div class="col-3">
+                            <img src="./assets/image/88.jpg"
+                                style="width: 100px;  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;"
+                                class="img-fluid rounded-start" alt="..."><br>
+                        </div>
+                    </div><br>
+                </div> -->
+                </div>
+                <div class="col-md-7">
+                    <div class="card-body">
+                        <h1 class="card-title" >{{ProductList.name_product}} </h1><br>
+                        <h2>รายละเอียด</h2>
+                        <p class="card-text">{{ProductList.detail_product}}.</p><br>
+                        <h2>ราคาสินค้า</h2>
+                        <p class="card-text">{{ProductList.price_product}}</p><br>
+                        <h2>จำนวน</h2>
+
+                        <div class="row">
+                            <div class="input-group mb-3" style="width: 150px;">
+                            <button class="input-group-text bg-white"  (click)="decrease()">-</button>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" style="text-align: center; "   [value]="counter">
+                            <button class="input-group-text bg-white" (click)="increase()">+</button>
+                        </div>
+                            <!-- <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1" >จำนวน</span>
+                                <input style="max-width: 40%;" type="text" class="form-control" placeholder="จำนวน" formControlName="number_card"
+                                    aria-describedby="basic-addon1">
+                            </div>
+                            <mat-error *ngIf="Card.controls.number_card.invalid && Card.controls.number_card.touched">
+                                กรุณาระบุจำนวน.
+                            </mat-error> -->
+                        </div> <br>
+                        <h3>คงเหลือ {{ProductList.number_product}} ชิ้น</h3>
+                        <button mat-raised-button color="warn" style="width: 50%;"
+                            (click)="submit()" ><mat-icon>add_shopping_cart
+                            </mat-icon>เพิ่มลงตะกร้า</button><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

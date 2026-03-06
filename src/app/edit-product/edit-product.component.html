@@ -1,0 +1,74 @@
+<mat-card>
+    <mat-card-content>
+        <div class="header">
+            <h2>แก้ไขสินค้า</h2>
+        </div>
+        <form [formGroup]="EditProduct">
+            
+            <!-- <div style="display: flex;justify-content: center;flex-direction: row;">
+                <img src="" alt="">
+                <input class="form-control" type="file" id="formFile" style="width: 40%;" formControlName="image_product">
+                <mat-error
+                *ngIf="addProduct.controls.image_product.invalid && addProduct.controls.image_product.touched">
+            </mat-error>
+            </div><br> -->
+            <div>
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>ชื่อสินค้า</mat-label>
+                    <input matInput formControlName="name_product" />
+                </mat-form-field>
+                <mat-error
+                *ngIf="EditProduct.controls.name_product.invalid && EditProduct.controls.name_product.touched">
+                กรุณาระบุชื่อสินค้า.
+                </mat-error>
+            </div>
+            <div>
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>รายละเอียดสินค้า</mat-label>
+                    <input matInput formControlName="detail_product" />
+                </mat-form-field>
+                <mat-error
+                *ngIf="EditProduct.controls.detail_product.invalid && EditProduct.controls.detail_product.touched">
+                กรุณาระบุรายละเอียดสินค้า.
+                </mat-error>
+            </div>
+            <div>
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>จำนวน</mat-label>
+                    <input matInput formControlName="number_product" />
+                </mat-form-field>
+                <mat-error
+                *ngIf="EditProduct.controls.number_product.invalid && EditProduct.controls.number_product.touched">
+                กรุณาระบุจำนวน.
+                </mat-error>
+            </div>
+            <div>
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>ราคา</mat-label>
+                    <input matInput formControlName="price_product" />
+                    <span matTextPrefix>฿&nbsp;</span>
+                </mat-form-field>
+                <mat-error
+                *ngIf="EditProduct.controls.price_product.invalid && EditProduct.controls.price_product.touched">
+                กรุณาระบุราคา.
+                </mat-error>
+            </div>
+            <div>
+                <mat-radio-group aria-label="Select an option" formControlName="type_product">
+                    <mat-label>ประเภทสินค้า</mat-label>
+                    <mat-radio-button value="อาหารปลา">อาหารปลา</mat-radio-button>
+                    <mat-radio-button value="อุปกรณ์เสริมและของตกแต่ง">อุปกรณ์เสริมและของตกแต่ง</mat-radio-button>
+                </mat-radio-group>
+                <mat-error
+                *ngIf="EditProduct.controls.type_product.invalid && EditProduct.controls.type_product.touched">
+                กรุณาระบุประเภทสินค้า.
+                </mat-error>
+            </div><br>
+            <div style="display: flex;
+            justify-content: center;
+            flex-direction: row;">
+                <button mat-flat-button  (click)="onsubmit()"  color="primary" style="width: 50%;" [disabled]="EditProduct.invalid">ยืนยัน</button>
+            </div><br>
+        </form>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,78 @@
+
+
+<mat-toolbar  color="primary" class="mat-elevation-z8">
+    <button mat-icon-button (click)="sidenav.toggle()" id="menuIcon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span id="menuTitle">My App</span>
+    <div class="spacer"></div>
+    <button mat-button routerLink="home" class="top-menu-item">
+        <mat-icon class="mr">home</mat-icon>
+        หน้าหลัก
+    </button>
+    <button mat-button routerLink="order" class="top-menu-item"  >
+        <mat-icon class="mr">attach_money</mat-icon>
+        สถาณะการสั่งซื้อของฉัน
+    </button>
+    <button mat-button routerLink="shopping-card" class="top-menu-item"  >
+        <mat-icon class="mr">shopping_cart</mat-icon>
+        ตระกร้าสินค้า
+    </button>
+
+    <button mat-button  [matMenuTriggerFor]="about"  *ngIf="checkLoinUser && roleCode=='admin'" > เจ้าของร้าน
+        <mat-icon>expand_more</mat-icon> </button>
+
+        <button mat-button  [matMenuTriggerFor]="about1" class="top-menu-item" *ngIf="checkLoinUser"> 
+            <mat-icon>account_circle</mat-icon> </button>
+
+    <button mat-button (click)="openAddLoginEmForm()" class="top-menu-item" *ngIf="!checkLoinUser">
+        <mat-icon class="mr">login</mat-icon>
+        Login
+    </button>
+</mat-toolbar>
+
+<mat-sidenav-container>
+    <mat-sidenav #sidenav [fixedInViewport]="true" [fixedTopGap]="60" mode="side">
+        <div class="side-nav-items">
+            <div>
+                <button mat-button routerLink="home" class="side-menu-item">
+                    <mat-icon class="mr">home</mat-icon>
+                    หน้าหลัก
+                </button>
+            </div>
+            <div>
+                <button mat-button routerLink="order" class="side-menu-item">
+                    <mat-icon class="mr">attach_money</mat-icon>
+                    สถาณะการสั่งซื้อของฉัน
+                </button>
+            </div> 
+            <div>
+                <button mat-button routerLink="shopping-card" class="side-menu-item">
+                    <mat-icon class="mr">shopping_cart</mat-icon>
+                    ตระกร้าสินค้า
+                </button>
+            </div>
+            <div>
+                <button mat-button  [matMenuTriggerFor]="about1" class="side-menu-item" *ngIf="checkLoinUser"> 
+                    <mat-icon>account_circle</mat-icon> </button>
+            </div>
+            <div>
+                <button mat-button (click)="openAddLoginEmForm()" class="side-menu-item" *ngIf="!checkLoinUser">
+                    <mat-icon class="mr">login</mat-icon>
+                    Login
+                </button>
+            </div>           
+        </div>
+    </mat-sidenav>
+</mat-sidenav-container>
+<mat-menu #about="matMenu">
+    <button mat-menu-item routerLink="addmin-order"> <mat-icon class="mr">attach_money</mat-icon>ยืนยันการสั่งซื้อ</button>
+    <button mat-menu-item routerLink="manage-product"> <mat-icon class="mr">inventory</mat-icon>จัดการสินค้า</button>
+    <button mat-menu-item routerLink="profile-all"> <mat-icon class="mr">badge</mat-icon>บัญชีทั้งหมด</button>
+</mat-menu>
+
+<mat-menu #about1="matMenu">
+    <button mat-menu-item routerLink="profile"> <mat-icon class="mr">badge</mat-icon>บัญชีของฉัน</button>
+    <button mat-menu-item routerLink="address"> <mat-icon class="mr">pin_drop</mat-icon>ที่อยู่จัดส่ง</button>
+    <button mat-menu-item (click)="logout()" routerLink="home"> <mat-icon class="mr" >logout</mat-icon>ออกจากระบบ</button>
+</mat-menu>

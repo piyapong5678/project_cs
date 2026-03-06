@@ -1,0 +1,63 @@
+<div class="container">
+    <mat-toolbar>
+        <div class="input-group rounded" style="width: 50%;">
+            <input type="search" (keyup)="onKeyAll($event)" class="form-control rounded" placeholder="ค้นหา" aria-label="Search"
+                aria-describedby="search-addon" />
+        </div>
+    </mat-toolbar><br>
+
+    <div  class="row row-cols-1 row-cols-md-2 g-4">
+        <div *ngFor="let profileall of ProfileAllList">
+            <div class="col">
+                <div class="card" style="max-width: 40rem;">
+                    <br>
+                    <div class="container">
+                        <div class="row ">
+                            <div class="col">
+                                <button mat-button color="primary">{{profileall.status_user}}</button>
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="container" style="display: flex;justify-content: center;flex-direction: row;">     
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar img-circle img-thumbnail"
+                                    alt="avatar">
+                                <!-- <h6>เลือกรูปโปรไฟล์</h6> -->
+                                <!-- <input  type="file" class="form-control"> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">ชื่อ</span>
+                            <input type="text" class="form-control" s placeholder="ชื่อ" value="{{profileall.firstname_user}}" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">นามสกุล</span>
+                            <input type="text" class="form-control" s placeholder="นามสกุล" value="{{profileall.lastname_user}}" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">เบอร์โทร</span>
+                            <input type="text" class="form-control" s placeholder="เบอร์โทร" value="{{profileall.phone_user}}" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">อีเมล</span>
+                            <input type="text" class="form-control" s placeholder="อีเมล" value="{{profileall.email_user}}"
+                                aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="container" style="display: flex;justify-content: center;flex-direction: row;">
+                            <button mat-raised-button color="warn" (click)="deleteProfile(profileall.id_user)">ลบ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

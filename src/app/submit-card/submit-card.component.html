@@ -1,0 +1,90 @@
+<div class="container">
+    <mat-card>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="container">
+                        <br>
+                        <mat-toolbar>
+                            <button mat-icon-button  (click)="blackCard()" color="warn">
+                                <mat-icon >arrow_back</mat-icon>&nbsp;       
+                            </button>   
+                            <span>สั่งซื้อ</span>                 
+                        </mat-toolbar>
+                        <br>
+                        <div *ngFor="let card of CardList">
+                            <div class="card mb-3"
+                                style="    max-width: 40em;flex-direction: row;box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; background-color: var(--bs-primary-bg-subtle)!important;color: #000000;">
+                                <img src="{{card.productModel.image_product}}" class="card-img-top" alt="..."
+                                    style="max-width: 25%; margin: auto; padding: 0.5em;border-radius: 0.7em;">
+                                <div class="card-body" style=" display: flex;justify-content: space-between;">
+                                    <div class="text-section" style=" max-width: 60%;">
+                                        <h2 class="card-title">{{card.productModel.name_product}}</h2>
+                                        <p class="card-text">{{card.productModel.detail_product}}.</p>
+                                    </div>
+                                    <div class="cta-section"
+                                        style="    max-width: 40%;display: flex;flex-direction: column;align-items: flex-end;justify-content: space-between;">
+                                        <div>x{{card.number_card}}</div>
+                                        <div>฿{{card.productModel.price_product}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav class="navbar navbar-light bg-light" >
+                            <div class="container-fluid">
+                                <button mat-button>ยอดชำระเงิน: ฿{{total}}.00</button>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="card-body">
+                        <div class="card text-dark bg-light mb-3" >
+                            <mat-toolbar color="primary">
+                                <span>ที่อยู่ที่จัดส่ง</span>
+                            </mat-toolbar>
+                            <div class="card-body">
+                                <h3 class="card-title">{{fullname}}</h3>
+                                <p class="card-text">{{address}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <br>
+                    <button mat-button>
+                        <mat-icon class="mr">account_balance</mat-icon>
+                        ช่องทางการชำระ
+                    </button>
+                    <br>
+                    <br>
+                    <div class="card text-dark  mb-3" style="max-width: 25rem; background-color: #6610f2;">
+                        <div class="card-body">
+                            <h4 class="card-text" style="color: #fff;">ไทยพาณิชย์: 4110213377</h4>
+                        </div>
+                    </div>
+                    <div class="card text-dark  mb-3" style="max-width: 25rem; background-color: #108cf2;">
+                        <div class="card-body">
+                            <h4 class="card-text" style="color: #fff;">กรุงไทย พพ: 0621813560</h4>
+                        </div>
+                    </div>
+                    <button mat-button>
+                        <mat-icon class="mr">receipt_long</mat-icon>
+                        แจ้งหลักฐานการชำระ
+                    </button>
+                    <div>
+                        <img src="" alt="">
+                        <input class="form-control" type="file" id="formFile" style="width: 40%;" (change)="onFileSelected($event)">
+                    </div><br>
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn btn-primary" style="width: 90%;" (click)="Submit()" [disabled]="fileCheck">ยืนยัน</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-danger" style="width: 90%;" (click)="cross()">ข้าม</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>
+

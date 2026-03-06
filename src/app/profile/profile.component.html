@@ -1,0 +1,66 @@
+<div class="container">
+    <form [formGroup]="Profile">
+        <div class="row ">
+            <div class="card" style="max-width: 50rem;">
+                <br>
+                <!-- <div class="container" style="display: flex;justify-content: center;flex-direction: row;">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                                class="avatar img-circle img-thumbnail" alt="avatar">
+                            <h6>เลือกรูปโปรไฟล์</h6>
+                            <input  type="file" class="form-control" id="formFile" (change)="onFileSelected($event)">
+                        </div>
+                    </div>
+                </div> -->
+                <div class="card-body">
+                    <mat-error *ngIf="Profile.controls.firstname_user.invalid && Profile.controls.firstname_user.touched">
+                        กรุณาระบุชื่อ.
+                    </mat-error>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">ชื่อ</span>
+                        <input type="text" class="form-control" placeholder="ชื่อ" formControlName="firstname_user"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <mat-error *ngIf="Profile.controls.lastname_user.invalid && Profile.controls.lastname_user.touched">
+                        กรุณาระบุนามสกุล.
+                    </mat-error>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">นามสกุล</span>
+                        <input type="text" class="form-control" placeholder="นามสกุล" formControlName="lastname_user"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <mat-error *ngIf="Profile.controls.phone_user.invalid && Profile.controls.phone_user.touched">
+                        กรุณาระบุเบอร์โทร.
+                    </mat-error>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">เบอร์โทร</span>
+                        <input type="text" class="form-control" placeholder="เบอร์โทร" formControlName="phone_user"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <mat-error *ngIf="Profile.controls.email_user.invalid && Profile.controls.email_user.touched">
+                        กรุณาระบุอีเมล.
+                    </mat-error>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">อีเมล</span>
+                        <input type="text" class="form-control" placeholder="อีเมล" formControlName="email_user"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="container" style="display: flex;justify-content: center;flex-direction: row;">
+                        <button mat-raised-button color="primary" (click)="onsubmit()" [disabled]="Profile.invalid">บันทึก</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- <div class="container" >
+        <mat-card style="max-width: 40rem;">
+            <mat-card-content>
+                <mat-form-field class="full-width" appearance="outline" style="max-width: 40rem;">
+                    <mat-label>ชื่อ</mat-label>
+                    <input matInput  />
+                </mat-form-field>
+            </mat-card-content>
+        </mat-card>
+    </div> -->

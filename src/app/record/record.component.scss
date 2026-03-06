@@ -1,0 +1,11 @@
+
+
+.rating-list {
+    display: inline-block;
+    list-style: none;
+}
+@media screen and (max-width: 475px) {
+    .card {
+        font-size: 0.9em;
+    }
+}

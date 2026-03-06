@@ -1,0 +1,57 @@
+<div *ngFor="let send of SendList">
+    <div class="container" >
+        <mat-card>
+            <br>
+            <div class="container">
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    <div class="col">
+                        <nav class="navbar navbar-light bg-light mb-3" >
+                            <div class="container-fluid">
+                                <a class="navbar-brand" style="color: #198754;">จัดส่งแล้ว</a>
+                                <span class="example-spacer"></span>
+                            </div>
+                        </nav>
+                        <div *ngFor="let sendCardPd of send.cardProductModel">
+                            <div class="card mb-3" style="flex-direction: row;box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; background-color: var(--bs-primary-bg-subtle)!important;color: #000000;">
+                                <img src="{{sendCardPd.productModel.image_product}}" class="card-img-top" alt="..." style="max-width: 25%;margin: auto;padding: 0.5em;border-radius: 0.7em;">
+                                <div class="card-body" style="    display: flex; justify-content: space-between;">
+                                    <div class="text-section" style=" max-width: 60%;">
+                                        <h2 class="card-title">{{sendCardPd.productModel.name_product}}</h2>
+                                        <p class="card-text">{{sendCardPd.productModel.detail_product}}.</p>
+                                    </div>
+                                    <div class="cta-section" style="max-width: 40%;display: flex;flex-direction: column;align-items: flex-end;justify-content: space-between;">
+                                        <div>x{{sendCardPd.number_card}}</div>
+                                        <div>฿{{sendCardPd.productModel.price_product}}.00</div>
+                                    </div>
+                                </div>
+                            </div><br>
+                        </div>
+                        <nav class="navbar navbar-light bg-light" >
+                            <div class="container-fluid">
+                                <button mat-button>ยอดชำระเงิน: ฿{{send.paymentModel.total_payment}}.00</button>
+                            </div>
+                        </nav><br>
+                    </div>
+                    <div class="col">
+                        <div class="card-body">
+                            <div class="card text-dark bg-light mb-3" >
+                                <mat-toolbar color="primary">
+                                    <span>ที่อยู่ที่จัดส่ง</span>
+                                </mat-toolbar>
+                                <div class="card-body">
+                                    <h3 class="card-title">{{send.addressModel.firstname_address}}&nbsp;{{send.addressModel.lastname_address}}</h3>
+                                    <p class="card-text">บ้านเลขที่&nbsp;{{send.addressModel.housenumber_address}}&nbsp;หมู่&nbsp;{{send.addressModel.village_address}}&nbsp;บ้าน/อาคาร.{{send.addressModel.housename_address}} 
+                                        &nbsp;ซอย.{{send.addressModel.subdistrict_address}}&nbsp;ถนน/แยก.{{send.addressModel.road_address}}&nbsp;ตำบล/เขต.{{send.addressModel.district_address}}&nbsp;อำเภอ/แขวง.{{send.addressModel.prefecture_address}}&nbsp;จังหวัด.{{send.addressModel.province_address}}&nbsp;
+                                        {{send.addressModel.postcode_address}}&nbsp;เบอร์โทร.{{send.addressModel.phone_address}}.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+        </mat-card><br><br>
+    </div>
+    
+</div>
+

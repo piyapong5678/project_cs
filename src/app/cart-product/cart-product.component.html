@@ -1,0 +1,61 @@
+<br>
+<div class="card" style="max-width: 50rem;">
+    <form [formGroup]="CardAdd">
+        <div class="container">
+            <br>
+            <nav class="navbar navbar-light bg-light mb-3" style="max-width: 40rem">
+                <div class="container-fluid">
+                    <a class="navbar-brand">ตระกร้าสินค้า</a>
+                </div>
+            </nav>
+            <div *ngFor="let card of CardList,let i = index">
+                <div class="card mb-3" style="  max-width: 40em;
+                flex-direction: row;
+                box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; background-color: var(--bs-primary-bg-subtle)!important ;
+                color: #000000;">
+                    <img src="{{card.productModel.image_product}}" class="card-img-top" alt="..." style="max-width: 25%;margin: auto;padding: 0.5em;border-radius: 0.7em;">
+                    <div class="card-body" style="    display: flex; justify-content: space-between;">
+                        <div class="text-section" style=" max-width: 60%;">
+                            <h2 class="card-title">{{card.productModel.name_product}}</h2>
+                            <p class="card-text">{{card.productModel.detail_product}} .</p>
+                            <div class="input-group mb-3" style="width: 130px;">
+                                <button class="input-group-text bg-white"  (click)="decrease(i)">-</button>
+                                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" style="text-align: center;"    [value]="counter2[i]">
+                                <button class="input-group-text bg-white" (click)="increase(i)">+</button>
+                            </div>
+                            <!-- <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1" >จำนวน</span>
+                                <input style="max-width: 40%;" type="text" class="form-control" placeholder="จำนวน" formControlName="number_card"
+                                    aria-describedby="basic-addon1">
+                            </div>
+                            <mat-error *ngIf="CardAdd.controls.number_card.invalid && CardAdd.controls.number_card.touched">
+                                กรุณาระบุจำนวน.
+                            </mat-error> -->
+                        </div>
+                        <div class="cta-section" style="    max-width: 40%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-end;
+                        justify-content: space-between;">
+                            <div><button mat-icon-button color="warn" (click)=" deleteCard(card.id_card)">
+                                    <mat-icon>delete</mat-icon>
+                                </button></div>
+                            <div>฿{{card.productModel.price_product}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav class="navbar navbar-light bg-light">
+                <div class="container-fluid">
+                    <!-- <button mat-button>ยอดชำระเงิน: ฿{{total}}.00</button> -->
+                        <h4>ยอดชำระเงิน: ฿{{total}}.00</h4>
+                </div>
+                <div class="container-fluid">
+                    <button mat-raised-button color="warn" style="width: 100%;" (click)=" CardAll()">สั่งซื้อสินค้าในตระกร้า</button>
+                </div>
+            </nav><br>
+        </div>
+    </form>
+
+
+</div>

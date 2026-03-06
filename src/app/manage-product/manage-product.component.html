@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row">
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <h1>จัดการสินค้า</h1>
+                <span class="example-spacer"></span>
+                <button mat-raised-button color="primary" (click)="openAddProduct()"><mat-icon>add</mat-icon>
+                    เพิ่มสินค้า</button>
+            </div>
+        </nav>
+    </div><br>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">ชื่อสินค้า</th>
+                <th scope="col">รายละเอียดสินค้า</th>
+                <th scope="col">ราคา</th>
+                <th scope="col">จำนวน</th>
+                <th scope="col">ประเภท</th>
+                <th scope="col">รูปภาพ</th>
+                <th scope="col">จัดการ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of ProductList">
+                <td>{{product.name_product}}</td>
+                <td>{{product.detail_product}}</td>
+                <td>฿{{product.price_product}}</td>
+                <td>{{product.number_product}}</td>
+                <td>{{product.type_product}}</td>
+                <td><img src="{{product.image_product}}" alt="Avatar" style="width: 50px;"></td>
+                <td>
+                    <div class="row">
+                        <div class="col">
+                            <button mat-button (click)="EditProduct(product.id_product)">แก้ไข</button>
+                        </div>
+                        <div class="col">
+                            <button mat-button color="warn" (click)="deleteProduct(product.id_product)">ลบ</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

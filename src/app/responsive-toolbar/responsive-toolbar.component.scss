@@ -1,0 +1,46 @@
+.spacer{
+    flex: 1 1 auto;
+}
+
+#menuTitle{
+    font-size: medium;
+    margin-right: 20px;
+}
+
+.mat-toolba{
+    height: 60px;
+    position: fixed;
+    z-index: 100;
+    width: 100%  !important;
+}
+
+.mat-sidenav{
+    background-color: #3f51b5;
+    
+}
+
+.side-nav-items{
+    display: flexbox;
+    flex-direction: column;
+}
+
+.side-menu-item{
+    color: white !important;
+    margin: 20px;
+}
+
+@media (min-width: 900px){
+    #menuIcon{
+        display: none;
+    }
+    .mat-sidenav{
+        display: none;
+    }
+}
+
+@media (max-width: 900px){
+    .top-menu-item{
+        display: none;
+    }
+}
+

@@ -1,0 +1,126 @@
+<div mat-dialog-title>
+    <h1>เพิ่มที่อยู่ใหม่</h1>
+</div>
+<form [formGroup]="addAdressForm" >
+    <div mat-dialog-content class="content">
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>ชื่อ</mat-label>
+                    <input matInput type="text" formControlName="firstname_address">
+                    <mat-error *ngIf="addAdressForm.controls.firstname_address.invalid && addAdressForm.controls.firstname_address.touched">
+                        กรุณาระบุชื่อ.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>นามสกุล</mat-label>
+                    <input matInput type="text" formControlName="lastname_address">
+                    <mat-error *ngIf="addAdressForm.controls.lastname_address.invalid && addAdressForm.controls.lastname_address.touched">
+                        กรุณาระบุนามสกุล.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>เบอร์โทร</mat-label>
+                    <input matInput type="text" formControlName="phone_address">
+                    <mat-error *ngIf="addAdressForm.controls.phone_address.invalid && addAdressForm.controls.phone_address.touched">
+                        กรุณาระบุเบอร์โทร.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>บ้านเลขที่</mat-label>
+                    <input matInput type="text" formControlName="housenumber_address">
+                    <mat-error *ngIf="addAdressForm.controls.housenumber_address.invalid && addAdressForm.controls.housenumber_address.touched">
+                        กรุณาระบุบ้านเลขที่.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>หมู่ที่</mat-label>
+                    <input matInput type="text" formControlName="village_address">      
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>ชื่ออาคาร/ชื่อบ้าน</mat-label>
+                    <input matInput type="text" formControlName="housename_address">
+                    <mat-error *ngIf="addAdressForm.controls.housename_address.invalid && addAdressForm.controls.housename_address.touched">
+                        กรุณาระบุบ้าน/ชื่อบ้าน.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>ซอย</mat-label>
+                    <input matInput type="text" formControlName="subdistrict_address">
+                </mat-form-field>
+            </div>   
+            <div class="col">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>ถนน/แยก</mat-label>
+                    <input matInput type="text" formControlName="road_address">
+                </mat-form-field>
+            </div>   
+            <!-- <div class="col">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>แขวง</mat-label>
+                    <input matInput type="text" formControlName="subdistrict_address">
+                </mat-form-field>
+            </div>    -->
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>ตำบล/เขต</mat-label>
+                    <input matInput type="text" formControlName="district_address">
+                    <mat-error *ngIf="addAdressForm.controls.district_address.invalid && addAdressForm.controls.district_address.touched">
+                        กรุณาระบุตำบล
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>อำเภอ/แขง</mat-label>
+                    <input matInput type="text" formControlName="prefecture_address">
+                    <mat-error *ngIf="addAdressForm.controls.prefecture_address.invalid && addAdressForm.controls.prefecture_address.touched">
+                        กรุณาระบุอำเภอ
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>จังหวัด</mat-label>
+                    <input matInput type="text" formControlName="province_address">
+                    <mat-error *ngIf="addAdressForm.controls.province_address.invalid && addAdressForm.controls.province_address.touched">
+                        กรุณาระบุจังหวัด
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>รหัสไปรษณีย์</mat-label>
+                    <input matInput type="text" formControlName="postcode_address">
+                    <mat-error *ngIf="addAdressForm.controls.postcode_address.invalid && addAdressForm.controls.postcode_address.touched">
+                        กรุณาระบุรหัสไปรษณีย์
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button color="primary"   style="width: 100%;" (click)="onSubmit()" [disabled]="addAdressForm.invalid">บันทึก</button>
+    </div>
+</form>
