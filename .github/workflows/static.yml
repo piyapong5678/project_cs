@@ -28,11 +28,11 @@ jobs:
       - name: Build
         run: npx ng build --base-href /project_cs/
 
-      - name: Upload Artifacts
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # ตรวจสอบชื่อโฟลเดอร์ใน dist ของคุณให้ถูกต้อง
-          path: dist/project-cs/browser
+          path: dist/project-cs
 
   deploy:
     needs: build_site
