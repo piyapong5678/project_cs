@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # ตรวจสอบชื่อโฟลเดอร์ใน dist ของคุณให้ถูกต้อง
-          path: dist/project_cs/ 
+          path: ./dist/project_cs/browser
 
   deploy:
     needs: build_site
