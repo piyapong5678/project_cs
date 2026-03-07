@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Profile } from './profile-get';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 
 
@@ -11,7 +12,7 @@ import { Profile } from './profile-get';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-
+  urlbackend = APP_CONFIG.URL_BACKEND;
   profileUser: boolean = false;
   file: File | undefined;
   fileCheck: boolean = true;
@@ -33,7 +34,7 @@ export class ProfileComponent implements OnInit {
     this.chekprofile();
     let id_user= JSON.parse(sessionStorage.getItem('user')!).id_user;
     console.log("id==>",id_user);
-    this.http.get<Profile>('http://localhost:8080/api/v1/user/data/'+id_user).pipe()
+    this.http.get<Profile>(this.urlbackend +'/api/v1/user/data/'+id_user).pipe()
     .subscribe((response: Profile) => {
       this.Profile.controls['firstname_user'].setValue(response.firstname_user);
       this.Profile.controls['lastname_user'].setValue(response.lastname_user);
@@ -53,7 +54,7 @@ export class ProfileComponent implements OnInit {
   onsubmit(){
     let id_user= JSON.parse(sessionStorage.getItem('user')!).id_user;
     console.log("data==>",this.Profile.value);
-    this.http.put('http://localhost:8080/api/v1/user/data/'+id_user,this.Profile.value).subscribe(response=>{
+    this.http.put(this.urlbackend +'/api/v1/user/data/'+id_user,this.Profile.value).subscribe(response=>{
       console.log(response);
       window.location.reload()
     })
@@ -66,7 +67,7 @@ export class ProfileComponent implements OnInit {
     //     "Content-Type": "multipart/form-data"
     //   })
     // }
-    // this.http.post('http://localhost:8080/api/v1/user/data/file', formData).pipe().subscribe(response => {
+    // this.http.post(this.urlbackend +'/api/v1/user/data/file', formData).pipe().subscribe(response => {
     //   console.log("response,",response);
     // });
   }

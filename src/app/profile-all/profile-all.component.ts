@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ProfileAll } from './profileall-model';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 @Component({
   selector: 'app-profile-all',
@@ -8,7 +9,7 @@ import { ProfileAll } from './profileall-model';
   styleUrls: ['./profile-all.component.scss']
 })
 export class ProfileAllComponent implements OnInit{
-
+  urlbackend = APP_CONFIG.URL_BACKEND;
   ProfileAllList: ProfileAll[] = [];
   originalProfileAllList: ProfileAll[] = [];
   constructor(private http: HttpClient){}
@@ -16,7 +17,7 @@ export class ProfileAllComponent implements OnInit{
   deleteProfile(id_user: String){
     if(confirm('ยืนยันการลบ'))
       {
-        this.http.delete("http://localhost:8080/api/v1/user/data/"+id_user)
+        this.http.delete(this.urlbackend +"/api/v1/user/data/"+id_user)
         .subscribe(response=>{
               console.log(response);
               window.location.reload()
@@ -25,7 +26,7 @@ export class ProfileAllComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.http.get<ProfileAll[]>("http://localhost:8080/api/v1/user")
+    this.http.get<ProfileAll[]>(this.urlbackend +"/api/v1/user")
     .subscribe(response=>{
       console.log(response);
       this.ProfileAllList = response;

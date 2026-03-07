@@ -3,6 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Address } from '../address/address-model';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 @Component({
   selector: 'app-edit-address',
@@ -10,6 +11,7 @@ import { Address } from '../address/address-model';
   styleUrls: ['./edit-address.component.scss']
 })
 export class EditAddressComponent implements OnInit{
+  urlbackend = APP_CONFIG.URL_BACKEND;
   EditAressForm = new FormGroup({
 
     id_address: new FormControl(''),
@@ -31,7 +33,7 @@ export class EditAddressComponent implements OnInit{
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,private http: HttpClient){}
 
   ngOnInit(): void {
-    this.http.get<Address>('http://localhost:8080/api/v1/address/data/'+this.data.id).pipe()
+    this.http.get<Address>(this.urlbackend +'/api/v1/address/data/'+this.data.id).pipe()
     .subscribe((response: Address) => {
     this.EditAressForm.controls['housenumber_address'].setValue(response.housenumber_address);
     this.EditAressForm.controls['village_address'].setValue(response.village_address);
@@ -51,7 +53,7 @@ export class EditAddressComponent implements OnInit{
   }
 
   onSubmit(){
-    this.http.put('http://localhost:8080/api/v1/address/data/'+this.data.id,this.EditAressForm.value).subscribe(response=>{
+    this.http.put(this.urlbackend +'/api/v1/address/data/'+this.data.id,this.EditAressForm.value).subscribe(response=>{
       console.log(response);
       window.location.reload()
     })

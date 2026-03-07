@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CardProductModel, ProductModel, Sent } from './sent-payment-model';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 @Component({
   selector: 'app-payment',
@@ -8,7 +9,7 @@ import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./payment.component.scss']
 })
 export class PaymentComponent implements OnInit{
-
+  urlbackend = APP_CONFIG.URL_BACKEND;
   SendList: Sent[] = [];
   profileUser: boolean = false;
   total: number = 0;
@@ -25,7 +26,7 @@ export class PaymentComponent implements OnInit{
   ngOnInit(): void {
     this.chekprofile();
     let id_user = JSON.parse(sessionStorage.getItem('user')!).id_user;
-    this.http.get<Sent[]>('http://localhost:8080/api/v1/send/send1/'+id_user).pipe()
+    this.http.get<Sent[]>(this.urlbackend +'/api/v1/send/send1/'+id_user).pipe()
     .subscribe((response: Sent[]) => {  
       this.SendList = response;
       console.log("send==>",this.SendList);
@@ -54,11 +55,11 @@ export class PaymentComponent implements OnInit{
       status_send: "2",
     }
     console.log(formData);
-    this.http.post('http://localhost:8080/api/v1/payment/data/file', formData).pipe().subscribe(response => {
+    this.http.post(this.urlbackend +'/api/v1/payment/data/file', formData).pipe().subscribe(response => {
       console.log("response,",response);
     });
 
-    this.http.put('http://localhost:8080/api/v1/send/data/'+id_send,data).subscribe(response=>{
+    this.http.put(this.urlbackend +'/api/v1/send/data/'+id_send,data).subscribe(response=>{
       console.log(response);
       window.location.reload()
     })
@@ -69,7 +70,7 @@ export class PaymentComponent implements OnInit{
     let dataC = {
       status_send: "0",
     }
-    this.http.put('http://localhost:8080/api/v1/send/data/'+id_send,dataC).subscribe(response=>{
+    this.http.put(this.urlbackend +'/api/v1/send/data/'+id_send,dataC).subscribe(response=>{
       console.log(response);
       window.location.reload()
     })

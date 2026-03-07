@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Product } from '../product/product-list-model';
 import { Router } from '@angular/router';
 import { EditProductComponent } from '../edit-product/edit-product.component';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 @Component({
   selector: 'app-manage-product',
@@ -14,7 +15,7 @@ import { EditProductComponent } from '../edit-product/edit-product.component';
 export class ManageProductComponent implements OnInit{
 
   constructor(private _dialog: MatDialog, private http: HttpClient, private router: Router){}
-
+  urlbackend = APP_CONFIG.URL_BACKEND;
   ProductList : Product[] = [];
 
   openAddProduct(){
@@ -34,7 +35,7 @@ export class ManageProductComponent implements OnInit{
   deleteProduct(id_product: String){
     if(confirm('ยืนยันการลบ'))
       {
-        this.http.delete("http://localhost:8080/api/v1/product/data/"+id_product)
+        this.http.delete(this.urlbackend +"/api/v1/product/data/"+id_product)
         .subscribe(response=>{
               console.log(response);
               window.location.reload()
@@ -43,14 +44,14 @@ export class ManageProductComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.http.get<Product[]>("http://localhost:8080/api/v1/product")
+    this.http.get<Product[]>(this.urlbackend +"/api/v1/product")
     .subscribe(response=>{
       console.log(response);
       this.ProductList = response;
     })
     
   //   let id_product = "7732a323-5ae9-478a-8ce9-d44622ec1f1a";
-  //   this.http.get<Product>("http://localhost:8080/api/v1/product/data/"+id_product)
+  //   this.http.get<Product>(this.urlbackend +"/api/v1/product/data/"+id_product)
   //   .subscribe(response=>{
   //     console.log(response);
   //   })
@@ -63,7 +64,7 @@ export class ManageProductComponent implements OnInit{
   //     type_product: "อุปกรณ์เสริมและของตกแต่ง",
   //     number_product: "5"
   // }
-  //   this.http.put("http://localhost:8080/api/v1/product/data/"+id_product2,data)
+  //   this.http.put(this.urlbackend +"/api/v1/product/data/"+id_product2,data)
   //   .subscribe(response=>{
   //     console.log(response);
   //   })

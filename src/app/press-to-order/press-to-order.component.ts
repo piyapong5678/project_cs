@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../product/product-list-model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 
 @Component({
@@ -11,6 +12,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./press-to-order.component.scss']
 })
 export class PressToOrderComponent implements OnInit {
+  urlbackend = APP_CONFIG.URL_BACKEND;
   counter: number= 0;
   Product_id!: any;
   ProductList!: Product;
@@ -37,7 +39,7 @@ export class PressToOrderComponent implements OnInit {
     
     this.Product_id = this.router.snapshot.paramMap.get('id');
     console.log("id==>",this.Product_id);
-    this.http.get<Product>('http://localhost:8080/api/v1/product/data/'+this.Product_id)
+    this.http.get<Product>(this.urlbackend +'/api/v1/product/data/'+this.Product_id)
     .subscribe((response: Product) => {
       this.ProductList= response;
   });
@@ -53,7 +55,7 @@ export class PressToOrderComponent implements OnInit {
       statuscard: this.Card.value.statuscard,
     }
     console.log("data==>",data)
-    this.http.post('http://localhost:8080/api/v1/card/data',data).subscribe((res:any)=>{
+    this.http.post(this.urlbackend +'/api/v1/card/data',data).subscribe((res:any)=>{
       console.log(res);
       this.router1.navigate(['home']);
     })

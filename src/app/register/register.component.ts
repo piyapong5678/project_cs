@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 
 @Component({
@@ -9,8 +10,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent  {
+  urlbackend = APP_CONFIG.URL_BACKEND;
   regisForm  = new FormGroup({
-
+    
     firstname_user: new FormControl('', Validators.required),
     lastname_user: new FormControl('', Validators.required),
     phone_user: new FormControl('', [Validators.required, Validators.pattern("[0-9 ]{10}")]),
@@ -24,7 +26,7 @@ export class RegisterComponent  {
   onSubmit(){
     debugger;
     const obj = this.regisForm.value;
-    this.http.post('http://localhost:8080/api/v1/user/data',obj).subscribe((res:any)=>{
+    this.http.post(this.urlbackend +'/api/v1/user/data',obj).subscribe((res:any)=>{
       window.location.reload();
     })
   }

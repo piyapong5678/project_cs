@@ -5,6 +5,7 @@ import { Card, ProductModel } from '../cart-product/card-model';
 import { Address } from '../address/address-model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Sent } from '../payment/sent-payment-model';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 @Component({
   selector: 'app-submit-card',
@@ -12,6 +13,7 @@ import { Sent } from '../payment/sent-payment-model';
   styleUrls: ['./submit-card.component.scss']
 })
 export class SubmitCardComponent implements OnInit{
+  urlbackend = APP_CONFIG.URL_BACKEND;
   profileUser: boolean = false;
   CardList: Card[] = [];
   Address_id!: any;
@@ -40,7 +42,7 @@ export class SubmitCardComponent implements OnInit{
     
     ngOnInit(): void {
       this.Address_id = this.router1.snapshot.paramMap.get('id');
-      this.http.get<Address>('http://localhost:8080/api/v1/address/data/'+this.Address_id)
+      this.http.get<Address>(this.urlbackend +'/api/v1/address/data/'+this.Address_id)
       .subscribe((response: Address) => {
         this.AddressList = response;
         this.fullname = this.AddressList.firstname_address + " " + this.AddressList.lastname_address;
@@ -51,7 +53,7 @@ export class SubmitCardComponent implements OnInit{
 
       this.chekprofile();
       let id_user = JSON.parse(sessionStorage.getItem('user')!).id_user;
-      this.http.get<Card[]>('http://localhost:8080/api/v1/card/data-list/'+id_user).pipe()
+      this.http.get<Card[]>(this.urlbackend +'/api/v1/card/data-list/'+id_user).pipe()
       .subscribe((response: Card[]) => {
         this.CardList=response;
         this.totalCard();
@@ -82,11 +84,11 @@ export class SubmitCardComponent implements OnInit{
 
       // }
 
-      // this.http.post('http://localhost:8080/api/v1/payment/data',data).subscribe(response=>{
+      // this.http.post('/api/v1/payment/data',data).subscribe(response=>{
       //   console.log(response);
       // })
 
-      this.http.post('http://localhost:8080/api/v1/send/data',data).subscribe(response=>{
+      this.http.post(this.urlbackend +'/api/v1/send/data',data).subscribe(response=>{
         
         this.sent = response as Sent;
         this.onPayment(this.sent.id_send);
@@ -110,7 +112,7 @@ export class SubmitCardComponent implements OnInit{
         })
       }
       console.log(formData);
-      this.http.post('http://localhost:8080/api/v1/payment/data/file', formData).pipe().subscribe(response => {
+      this.http.post(this.urlbackend +'/api/v1/payment/data/file', formData).pipe().subscribe(response => {
         console.log("response,",response);
       });
     }
@@ -125,7 +127,7 @@ export class SubmitCardComponent implements OnInit{
         id_card: JSON.stringify(this.CardList.map(data => data.id_card)),
         paymentModel: {total_payment: this.total,status_payment:"0"},
       }
-      this.http.post('http://localhost:8080/api/v1/send/data',data).subscribe(response=>{
+      this.http.post(this.urlbackend +'/api/v1/send/data',data).subscribe(response=>{
         // console.log(response);
         this.router2.navigate(['home']);
       })

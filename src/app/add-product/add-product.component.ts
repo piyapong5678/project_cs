@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 
 @Component({
@@ -9,7 +10,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-product.component.scss']
 })
 export class AddProductComponent {
-  
+  urlbackend = APP_CONFIG.URL_BACKEND;
   addProduct = new FormGroup({
     id_product: new FormControl(''),
     name_product: new FormControl('', Validators.required),
@@ -26,7 +27,7 @@ export class AddProductComponent {
   onsubmit(){
     debugger;
     const obj = this.addProduct.value;
-    this.http.post('http://localhost:8080/api/v1/product/data',obj).subscribe((res:any)=>{
+    this.http.post(this.urlbackend +'/api/v1/product/data',obj).subscribe((res:any)=>{
       window.location.reload()
     })
   }

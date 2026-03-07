@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 @Component({
   selector: 'app-cart-product',
@@ -11,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./cart-product.component.scss']
 })
 export class CartProductComponent implements OnInit {
-
+  urlbackend = APP_CONFIG.URL_BACKEND;
   constructor(private http: HttpClient, 
     private router: Router,
     private _dialog: MatDialog){}
@@ -46,7 +47,7 @@ export class CartProductComponent implements OnInit {
     // let data = {
     //   number_card: this.counter2,
     // }
-    // this.http.put('http://localhost:8080/api/v1/card/data/'+id_user,data).subscribe(response=>{
+    // this.http.put(this.urlbackend +'/api/v1/card/data/'+id_user,data).subscribe(response=>{
     //   console.log(response);
     // })
     this.router.navigate(['shopping-card']);
@@ -73,7 +74,7 @@ export class CartProductComponent implements OnInit {
 
   deleteCard(id_card:string) {
     if (confirm('ยืนยันการลบ')) {
-      this.http.delete("http://localhost:8080/api/v1/card/data/"+id_card )
+      this.http.delete(this.urlbackend +"/api/v1/card/data/"+id_card )
         .subscribe(response => {
           console.log(response);
           window.location.reload()
@@ -84,7 +85,7 @@ export class CartProductComponent implements OnInit {
   ngOnInit(): void {
     this.chekprofile();
     let id_user = JSON.parse(sessionStorage.getItem('user')!).id_user;
-    this.http.get<Card[]>('http://localhost:8080/api/v1/card/data-list/'+id_user).pipe()
+    this.http.get<Card[]>(this.urlbackend +'/api/v1/card/data-list/'+id_user).pipe()
     .subscribe((response: Card[]) => {
       this.CardList=response;
       this.CardList.forEach((obj,index) => {

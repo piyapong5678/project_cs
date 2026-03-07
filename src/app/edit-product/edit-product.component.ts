@@ -3,6 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Product } from './edit-product-model';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { Product } from './edit-product-model';
   styleUrls: ['./edit-product.component.scss']
 })
 export class EditProductComponent implements OnInit{
-  
+  urlbackend = APP_CONFIG.URL_BACKEND;
   // EditProduct!: FormGroup;
   EditProduct = new FormGroup({
     id_product: new FormControl(''),
@@ -43,7 +44,7 @@ export class EditProductComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.http.get<Product>('http://localhost:8080/api/v1/product/data/'+this.data.id).pipe()
+    this.http.get<Product>(this.urlbackend +'/api/v1/product/data/'+this.data.id).pipe()
     .subscribe((response: Product) => {
         this.EditProduct.controls['name_product'].setValue(response.name_product);
       this.EditProduct.controls['detail_product'].setValue(response.detail_product);
@@ -66,7 +67,7 @@ export class EditProductComponent implements OnInit{
     //   number_product: this.EditProduct.value.number_product
     // }
     console.log("data==>",this.EditProduct.value);
-    this.http.put('http://localhost:8080/api/v1/product/data/'+this.data.id,this.EditProduct.value).subscribe(response=>{
+    this.http.put(this.urlbackend +'/api/v1/product/data/'+this.data.id,this.EditProduct.value).subscribe(response=>{
       console.log(response);
       window.location.reload()
     })

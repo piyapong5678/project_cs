@@ -7,6 +7,7 @@ import { AddProductComponent } from '../add-product/add-product.component';
 import { HttpClient } from '@angular/common/http';
 import { Product } from './product-list-model';
 import { Card } from '../cart-product/card-model';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 @Component({
   selector: 'app-product',
@@ -14,7 +15,7 @@ import { Card } from '../cart-product/card-model';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-
+  urlbackend = APP_CONFIG.URL_BACKEND;
   constructor(private _dialog: MatDialog, private router: Router, private http: HttpClient) { }
   ProductList: Product[] = [];
   CardList: Card[] = [];
@@ -43,7 +44,7 @@ export class ProductComponent implements OnInit {
   // }
 
   all(){
-    this.http.get<Product[]>("http://localhost:8080/api/v1/product")
+    this.http.get<Product[]>(this.urlbackend +"/api/v1/product")
     .subscribe(response => {
       console.log(response);
       this.ProductList = response;
@@ -52,7 +53,7 @@ export class ProductComponent implements OnInit {
   }
   
   equiment(){
-    this.http.get<Product[]>("http://localhost:8080/api/v1/product/productType")
+    this.http.get<Product[]>(this.urlbackend +"/api/v1/product/productType")
     .subscribe(response => {
       console.log(response);
       this.ProductList = response;
@@ -61,7 +62,7 @@ export class ProductComponent implements OnInit {
   }
 
   food(){
-    this.http.get<Product[]>("http://localhost:8080/api/v1/product/productType2")
+    this.http.get<Product[]>(this.urlbackend +"/api/v1/product/productType2")
     .subscribe(response => {
       console.log(response);
       this.ProductList = response;
@@ -73,13 +74,13 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     // this.chekprofile();
     // let id_user= JSON.parse(sessionStorage.getItem('user')!).id_user;
-    // this.http.get<Card[]>('http://localhost:8080/api/v1/card/usercard/'+id_user)
+    // this.http.get<Card[]>(this.urlbackend +'/api/v1/card/usercard/'+id_user)
     // .subscribe(response => {
     //   console.log(response);
     //   this.CardList = response;
     // })
 
-    this.http.get<Product[]>("http://localhost:8080/api/v1/product")
+    this.http.get<Product[]>(this.urlbackend +"/api/v1/product")
       .subscribe(response => {
         console.log(response);
         this.ProductList = response;

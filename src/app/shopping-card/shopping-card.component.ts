@@ -7,6 +7,7 @@ import { Address } from '../address/address-model';
 import { HttpClient } from '@angular/common/http';
 import { Card } from '../cart-product/card-model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./shopping-card.component.scss']
 })
 export class ShoppingCardComponent implements OnInit{
+  urlbackend = APP_CONFIG.URL_BACKEND;
   counter:number = 0;
   ProductList!: Card;
   counter2 :number[] = [];
@@ -35,7 +37,7 @@ export class ShoppingCardComponent implements OnInit{
     ngOnInit(): void {
       this.chekprofile();
       let id_user = JSON.parse(sessionStorage.getItem('user')!).id_user;
-      this.http.get<Address[]>("http://localhost:8080/api/v1/address/userAddress/" + id_user)
+      this.http.get<Address[]>(this.urlbackend +"/api/v1/address/userAddress/" + id_user)
       .subscribe(response => {
         console.log(response);
         this.AddressList = response;
@@ -44,7 +46,7 @@ export class ShoppingCardComponent implements OnInit{
         });
       })
 
-      this.http.get<Card[]>('http://localhost:8080/api/v1/card/data-list/'+id_user).pipe()
+      this.http.get<Card[]>(this.urlbackend +'/api/v1/card/data-list/'+id_user).pipe()
       .subscribe((response: Card[]) => {
         this.CardList=response;
         this.CardList.forEach((obj,index) => {
@@ -125,7 +127,7 @@ export class ShoppingCardComponent implements OnInit{
     }
     deleteProfile(id_address: String) {
       if (confirm('ยืนยันการลบ')) {
-        this.http.delete("http://localhost:8080/api/v1/address/data/" + id_address)
+        this.http.delete(this.urlbackend +"/api/v1/address/data/" + id_address)
           .subscribe(response => {
             console.log(response);
             window.location.reload()
@@ -135,7 +137,7 @@ export class ShoppingCardComponent implements OnInit{
 
     deleteCard(id_card:string) {
       if (confirm('ยืนยันการลบ')) {
-        this.http.delete("http://localhost:8080/api/v1/card/data/"+id_card )
+        this.http.delete(this.urlbackend +"/api/v1/card/data/"+id_card )
           .subscribe(response => {
             console.log(response);
             window.location.reload()
@@ -154,7 +156,7 @@ export class ShoppingCardComponent implements OnInit{
 
 //     CardSubmit(){
       
-//       this.http.put("http://localhost:8080/api/v1/card/data/",this.counter2).subscribe(response=>{
+//       this.http.put(this.urlbackend +"/api/v1/card/data/",this.counter2).subscribe(response=>{
 //         console.log(response);
 //       })
 // }

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RegisterComponent } from '../register/register.component';
 import { LoginDataModel } from '../shared/models/loginData.model';
 import { HttpClient } from '@angular/common/http';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-
+  urlbackend = APP_CONFIG.URL_BACKEND;
   public loginModel!: LoginDataModel;
 
   ngOnInit(): void {
@@ -45,7 +46,7 @@ export class LoginComponent implements OnInit {
 
     console.log(obj);
 
-    this.http.post('http://localhost:8080/api/v1/login', obj).subscribe((res: any) => {
+    this.http.post(this.urlbackend+'/api/v1/login', obj).subscribe((res: any) => {
       console.log(res);
 
 

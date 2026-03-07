@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Sent } from '../payment/sent-payment-model';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 @Component({
   selector: 'app-wait-sent',
@@ -8,7 +9,7 @@ import { Sent } from '../payment/sent-payment-model';
   styleUrls: ['./wait-sent.component.scss']
 })
 export class WaitSentComponent implements OnInit{
-
+  urlbackend = APP_CONFIG.URL_BACKEND;
   SendList: Sent[] = [];
   profileUser: boolean = false;
   
@@ -23,7 +24,7 @@ export class WaitSentComponent implements OnInit{
   ngOnInit(): void {
     this.chekprofile();
     let id_user = JSON.parse(sessionStorage.getItem('user')!).id_user;
-    this.http.get<Sent[]>('http://localhost:8080/api/v1/send/send3/'+id_user).pipe()
+    this.http.get<Sent[]>(this.urlbackend +'/api/v1/send/send3/'+id_user).pipe()
     .subscribe((response: Sent[]) => {  
       this.SendList = response;
       console.log("send==>",this.SendList);

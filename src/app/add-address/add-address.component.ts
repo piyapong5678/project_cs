@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { APP_CONFIG } from '../shared/constants/constants';
 
 
 
@@ -11,6 +12,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-address.component.scss']
 })
 export class AddAddressComponent implements OnInit{
+  urlbackend = APP_CONFIG.URL_BACKEND;
   profileUser: boolean = false;
   addAdressForm = new FormGroup({
     id_address: new FormControl(''),
@@ -60,7 +62,7 @@ export class AddAddressComponent implements OnInit{
       id_user: id_user,
     }
     console.log("data==>",data)
-    this.http.post('http://localhost:8080/api/v1/address/data',data).subscribe((res:any)=>{
+    this.http.post(this.urlbackend +'/api/v1/address/data',data).subscribe((res:any)=>{
       console.log(res);
       window.location.reload();
     })
