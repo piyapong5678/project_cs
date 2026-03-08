@@ -8,39 +8,37 @@
                 aria-describedby="search-addon" />
         </div>
         <span class="example-spacer"></span>
-        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon"
-            (click)="openCardProduct()">
-            <mat-icon  matBadgeColor="warn">shopping_cart</mat-icon>
-        </button>
-        <!-- matBadge="3" -->
-        <!-- <button mat-raised-button color="primary" (click)="openAddProduct()"><mat-icon>add</mat-icon>
-            เพิ่มสินค้า</button> -->
+            <button mat-icon-button color="primary" aria-label="Example icon button with a home icon" (click)="openCardProduct()">
+            <mat-icon matBadgeColor="warn" 
+                        [matBadge]="cartCount" 
+                        [matBadgeHidden]="cartCount === 0">
+                shopping_cart
+            </mat-icon>
+            </button>
     </mat-toolbar><br>
 
     <div class="row row-cols-1 row-cols-md-4 g-4">
         <div *ngFor="let product of ProductList">
             <div class="col">
-                <div class="card h-100">
-                    <img src="{{product.image_product}}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h3 class="card-title">{{product.name_product}}</h3>
-                        <p class="card-text">{{product.detail_product}}</p>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-outline-danger" routerLink="/product/{{product.id_product}}/press">฿{{product.price_product}}</button>
-                            <!-- <a routerLink="/product/{{product.id_product}}/press">฿{{product.price_product}}</a> -->
+                <a routerLink="/product/{{product.id_product}}/press" class="text-decoration-none text-dark">
+                    <div class="card h-100 product-card">
+                        <img src="{{product.image_product}}" class="card-img-top" alt="{{product.name_product}}">
+                        <div class="card-body">
+                            <h3 class="card-title">{{product.name_product}}</h3>
+                            <p class="card-text text-secondary">{{product.detail_product}}</p>
+                            <div class="d-flex justify-content-end">
+                                <span class="btn btn-outline-danger">฿{{product.price_product}}</span>
+                            </div>
                         </div>
                     </div>
+                </a>
                 </div>
-            </div>
         </div>
     </div>
-
 </div>
-
 
 <mat-menu #about="matMenu">
     <button mat-menu-item (click)="all()">ทั้งหมด</button>
     <button mat-menu-item (click)="food()">อาหารปลา</button>
     <button mat-menu-item (click)="equiment()">อุปกรณ์เลี้ยงปลา</button>
 </mat-menu>
-

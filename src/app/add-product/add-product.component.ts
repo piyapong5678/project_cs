@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { APP_CONFIG } from '../shared/constants/constants';
-
+import Swal from 'sweetalert2'; 
 
 @Component({
   selector: 'app-add-product',
@@ -17,21 +17,57 @@ export class AddProductComponent {
     detail_product: new FormControl('', Validators.required),
     number_product: new FormControl('', Validators.required),
     price_product: new FormControl('', Validators.required),
-    type_product: new FormControl('',Validators.required),
-    image_product: new FormControl('',Validators.required),
+    type_product: new FormControl('', Validators.required),
+    image_product: new FormControl('', Validators.required),
   });
-  
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient) { }
 
-  onsubmit(){
-    debugger;
+  onsubmit() {
+    
+    if (this.addProduct.invalid) {
+      Swal.fire({
+        icon: 'error',
+        title: 'ข้อมูลไม่ครบถ้วน!',
+        text: 'กรุณากรอกข้อมูลที่มีเครื่องหมาย * ให้ครบทุกช่อง',
+        confirmButtonColor: '#f44336'
+      });
+      return;
+    }
+
     const obj = this.addProduct.value;
-    this.http.post(this.urlbackend +'/api/v1/product/data',obj).subscribe((res:any)=>{
-      window.location.reload()
-    })
+    
+    
+    Swal.fire({
+      title: 'กำลังบันทึกข้อมูล...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    this.http.post(this.urlbackend + '/api/v1/product/data', obj).subscribe({
+      next: (res: any) => {
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'เพิ่มสินค้าสำเร็จ!',
+          text: 'สินค้าของคุณถูกบันทึกเข้าสู่ระบบแล้ว',
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => {
+          window.location.reload(); 
+        });
+      },
+      error: (err) => {
+        
+        Swal.fire({
+          icon: 'error',
+          title: 'เกิดข้อผิดพลาด!',
+          text: 'ไม่สามารถเพิ่มสินค้าได้ กรุณาลองใหม่อีกครั้ง',
+          confirmButtonColor: '#f44336'
+        });
+      }
+    });
   }
-
 }
-
-

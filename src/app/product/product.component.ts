@@ -16,6 +16,7 @@ import { APP_CONFIG } from '../shared/constants/constants';
 })
 export class ProductComponent implements OnInit {
   urlbackend = APP_CONFIG.URL_BACKEND;
+  cartCount: number = 0;
   constructor(private _dialog: MatDialog, private router: Router, private http: HttpClient) { }
   ProductList: Product[] = [];
   CardList: Card[] = [];
@@ -79,6 +80,7 @@ export class ProductComponent implements OnInit {
     //   console.log(response);
     //   this.CardList = response;
     // })
+    this.getCartCount();
 
     this.http.get<Product[]>(this.urlbackend +"/api/v1/product")
       .subscribe(response => {
@@ -86,6 +88,16 @@ export class ProductComponent implements OnInit {
         this.ProductList = response;
         this.originalProductList = response;
       })    
+  }
+  getCartCount() {
+    let id_user = JSON.parse(sessionStorage.getItem('user')!).id_user;
+    
+    
+    this.http.get<any[]>(this.urlbackend + '/api/v1/card/data-list/' + id_user)
+      .subscribe((response) => {
+        
+        this.cartCount = response.length; 
+      });
   }
 
   onKeyAll(event: any) {

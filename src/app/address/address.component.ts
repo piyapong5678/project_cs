@@ -6,7 +6,7 @@ import { Address } from './address-model';
 import { HttpClient } from '@angular/common/http';
 import { EditAddressComponent } from '../edit-address/edit-address.component';
 import { APP_CONFIG } from '../shared/constants/constants';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-address',
@@ -36,15 +36,52 @@ export class AddressComponent implements OnInit {
     this.profileUser = sessionStorage.hasOwnProperty('user');
     console.log(sessionStorage.hasOwnProperty('user'));
   }
-  deleteProfile(id_address: String) {
-    if (confirm('ยืนยันการลบ')) {
-      this.http.delete(this.urlbackend +"/api/v1/address/data/" + id_address)
-        .subscribe(response => {
-          console.log(response);
-          window.location.reload()
-        })
+deleteProfile(id_address: String) {
+  // 1. แสดง Pop-up ถามยืนยันการลบ
+  Swal.fire({
+    title: 'ยืนยันการลบที่อยู่?',
+    text: "คุณต้องการลบข้อมูลที่อยู่นี้ใช่หรือไม่? (การกระทำนี้ไม่สามารถย้อนกลับได้)",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33', 
+    cancelButtonColor: '#757575', 
+    confirmButtonText: 'ใช่, ลบเลย!',
+    cancelButtonText: 'ยกเลิก'
+  }).then((result) => {
+    
+    if (result.isConfirmed) {   
+      Swal.fire({
+        title: 'กำลังลบข้อมูล...',
+        didOpen: () => { Swal.showLoading(); }
+      });
+
+      this.http.delete(this.urlbackend + "/api/v1/address/data/" + id_address)
+        .subscribe({
+          next: (response) => {
+
+            Swal.fire({
+              icon: 'success',
+              title: 'ลบสำเร็จ!',
+              text: 'ที่อยู่ของคุณถูกลบออกจากระบบแล้ว',
+              timer: 1500,
+              showConfirmButton: false
+            }).then(() => {
+              window.location.reload(); 
+            });
+          },
+          error: (err) => {
+            
+            Swal.fire({
+              icon: 'error',
+              title: 'เกิดข้อผิดพลาด',
+              text: 'ไม่สามารถลบที่อยู่ได้ในขณะนี้',
+              confirmButtonColor: '#f44336'
+            });
+          }
+        });
     }
-  }
+  });
+}
 
 
   ngOnInit(): void {

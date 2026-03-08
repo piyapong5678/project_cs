@@ -6,7 +6,7 @@ import { Product } from '../product/product-list-model';
 import { Router } from '@angular/router';
 import { EditProductComponent } from '../edit-product/edit-product.component';
 import { APP_CONFIG } from '../shared/constants/constants';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-manage-product',
   templateUrl: './manage-product.component.html',
@@ -32,16 +32,46 @@ export class ManageProductComponent implements OnInit{
     // this.router.navigate(['edit-product']);
   }
 
-  deleteProduct(id_product: String){
-    if(confirm('ยืนยันการลบ'))
-      {
-        this.http.delete(this.urlbackend +"/api/v1/product/data/"+id_product)
-        .subscribe(response=>{
-              console.log(response);
-              window.location.reload()
-            })
-      }
-  }
+deleteProduct(id_product: String) {
+  
+  Swal.fire({
+    title: 'ยืนยันการลบ?',
+    text: "คุณจะไม่สามารถย้อนกลับรายการนี้ได้!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33', 
+    cancelButtonColor: '#3085d6', 
+    confirmButtonText: 'ใช่, ลบเลย!',
+    cancelButtonText: 'ยกเลิก'
+  }).then((result) => {
+
+    if (result.isConfirmed) {
+      this.http.delete(this.urlbackend + "/api/v1/product/data/" + id_product)
+        .subscribe({
+          next: (response) => {
+          
+            Swal.fire({
+              title: 'ลบเรียบร้อย!',
+              text: 'ข้อมูลสินค้าถูกลบออกจากระบบแล้ว',
+              icon: 'success',
+              timer: 1500,
+              showConfirmButton: false
+            }).then(() => {
+              window.location.reload(); 
+            });
+          },
+          error: (err) => {
+            
+            Swal.fire({
+              title: 'เกิดข้อผิดพลาด!',
+              text: 'ไม่สามารถลบข้อมูลได้ในขณะนี้',
+              icon: 'error'
+            });
+          }
+        });
+    }
+  });
+}
 
   ngOnInit(): void {
     this.http.get<Product[]>(this.urlbackend +"/api/v1/product")

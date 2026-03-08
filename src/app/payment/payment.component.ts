@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CardProductModel, ProductModel, Sent } from './sent-payment-model';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG } from '../shared/constants/constants';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -41,38 +41,118 @@ export class PaymentComponent implements OnInit{
     }
   }
 
-  onPayment(id_send:String){
+  onPayment(id_send: String) {
+  
+  Swal.fire({
+    title: 'ยืนยันการแจ้งชำระเงิน?',
+    text: "กรุณาตรวจสอบหลักฐานการโอนให้ถูกต้อง",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#757575',
+    confirmButtonText: 'ยืนยัน',
+    cancelButtonText: 'ยกเลิก'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      
+      
+      Swal.fire({
+        title: 'กำลังบันทึกข้อมูล...',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading(); }
+      });
 
-    const formData = new FormData();
-    formData.append('id_send', id_send.toString());
-    formData.append('file', this.file!);
-    let httpOptions = {
-      headers: new HttpHeaders({
-        "Content-Type": "multipart/form-data"
-      })
-    }
-    let data = {
-      status_send: "2",
-    }
-    console.log(formData);
-    this.http.post(this.urlbackend +'/api/v1/payment/data/file', formData).pipe().subscribe(response => {
-      console.log("response,",response);
-    });
+      
+      const formData = new FormData();
+      formData.append('id_send', id_send.toString());
+      formData.append('file', this.file!);
 
-    this.http.put(this.urlbackend +'/api/v1/send/data/'+id_send,data).subscribe(response=>{
-      console.log(response);
-      window.location.reload()
-    })
-  }
+      let httpOptions = {
+        headers: new HttpHeaders({
+          "Content-Type": "multipart/form-data"
+        })
+      };
+
+      let data = {
+        status_send: "2",
+      };
+
+      
+      this.http.post(this.urlbackend + '/api/v1/payment/data/file', formData).subscribe(response => {
+        console.log("response,", response);
+      });
 
   
-  cancel(id_send:String){
-    let dataC = {
-      status_send: "0",
+      this.http.put(this.urlbackend + '/api/v1/send/data/' + id_send, data).subscribe(response => {
+        console.log(response);
+        
+    
+        Swal.fire({
+          icon: 'success',
+          title: 'สำเร็จ!',
+          text: 'แจ้งชำระเงินเรียบร้อยแล้ว',
+          timer: 1500,
+          showConfirmButton: false
+        }).then(() => {
+          window.location.reload(); //
+        });
+      });
+      // ---------------------------------------
     }
-    this.http.put(this.urlbackend +'/api/v1/send/data/'+id_send,dataC).subscribe(response=>{
-      console.log(response);
-      window.location.reload()
-    })
-  }
+  });
+}
+
+  
+cancel(id_send: String) {
+  
+  Swal.fire({
+    title: 'ยืนยันการยกเลิกคำสั่งซื้อ?',
+    text: "คุณต้องการยกเลิกรายการสั่งซื้อนี้ใช่หรือไม่? (การกระทำนี้ไม่สามารถย้อนกลับได้)",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33', 
+    cancelButtonColor: '#757575',
+    confirmButtonText: 'ใช่, ยกเลิกรายการ!',
+    cancelButtonText: 'ปิดหน้าต่าง'
+  }).then((result) => {
+    
+    if (result.isConfirmed) {
+      
+      
+      Swal.fire({
+        title: 'กำลังยกเลิกรายการ...',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading(); }
+      });
+
+      let dataC = {
+        status_send: "0", 
+      };
+
+      this.http.put(this.urlbackend + '/api/v1/send/data/' + id_send, dataC).subscribe({
+        next: (response) => {
+        
+          Swal.fire({
+            icon: 'success',
+            title: 'ยกเลิกสำเร็จ!',
+            text: 'รายการสั่งซื้อของคุณถูกยกเลิกเรียบร้อยแล้ว',
+            timer: 1500,
+            showConfirmButton: false
+          }).then(() => {
+            window.location.reload(); 
+          });
+        },
+        error: (err) => {
+        
+          Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด!',
+            text: 'ไม่สามารถยกเลิกรายการได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง',
+            confirmButtonColor: '#f44336'
+          });
+        }
+      });
+    }
+  });
+}
 }

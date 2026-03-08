@@ -6,7 +6,7 @@ import { Address } from '../address/address-model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Sent } from '../payment/sent-payment-model';
 import { APP_CONFIG } from '../shared/constants/constants';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-submit-card',
   templateUrl: './submit-card.component.html',
@@ -66,40 +66,68 @@ export class SubmitCardComponent implements OnInit{
     }
     
 
-    Submit(){
-      // this.chekprofile();
+Submit() {
+  
+  Swal.fire({
+    title: 'ยืนยันการแจ้งชำระเงิน?',
+    text: "ตรวจสอบที่อยู่และรายการสินค้าให้เรียบร้อยก่อนกดยืนยัน",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#757575',
+    confirmButtonText: 'ยืนยันการส่ง',
+    cancelButtonText: 'ยกเลิก'
+  }).then((result) => {
+    
+    if (result.isConfirmed) {
+      
+
+      Swal.fire({
+        title: 'กำลังส่งข้อมูล...',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading(); }
+      });
+
       let id_user = JSON.parse(sessionStorage.getItem('user')!).id_user;
       this.Address_id = this.router1.snapshot.paramMap.get('id');
+
       let data = {
         id_user: id_user,
         id_address: this.Address_id,
         status_send: "2",
         id_card: JSON.stringify(this.CardList.map(data => data.id_card)),
-        paymentModel: {total_payment: this.total,status_payment:"1"},
-      }
+        paymentModel: { total_payment: this.total, status_payment: "1" },
+      };
 
-      
-
-      // let data1 = {
-
-      // }
-
-      // this.http.post('/api/v1/payment/data',data).subscribe(response=>{
-      //   console.log(response);
-      // })
-
-      this.http.post(this.urlbackend +'/api/v1/send/data',data).subscribe(response=>{
-        
-        this.sent = response as Sent;
-        this.onPayment(this.sent.id_send);
-        // console.log("sentsentsent ==>> ",this.sent.id_send);
-        // this.category = obj.category as Category[];
-        this.router2.navigate(['home']);
-      })
+      this.http.post(this.urlbackend + '/api/v1/send/data', data).subscribe({
+        next: (response) => {
+          this.sent = response as Sent;
+          this.onPayment(this.sent.id_send);
 
 
-      // console.log(data);
+          Swal.fire({
+            icon: 'success',
+            title: 'แจ้งชำระเงินสำเร็จ!',
+            text: 'ระบบได้รับข้อมูลของคุณเรียบร้อยแล้ว',
+            timer: 2000,
+            showConfirmButton: false
+          }).then(() => {
+            this.router2.navigate(['home']); 
+          });
+        },
+        error: (err) => {
+          
+          Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด!',
+            text: 'ไม่สามารถส่งข้อมูลได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง',
+            confirmButtonColor: '#f44336'
+          });
+        }
+      });
     }
+  });
+}
 
     onPayment(id_send:String){
 

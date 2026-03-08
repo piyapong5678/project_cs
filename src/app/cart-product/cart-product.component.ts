@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { APP_CONFIG } from '../shared/constants/constants';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cart-product',
@@ -72,15 +73,54 @@ export class CartProductComponent implements OnInit {
     console.log(sessionStorage.hasOwnProperty('user'));
   }
 
-  deleteCard(id_card:string) {
-    if (confirm('ยืนยันการลบ')) {
-      this.http.delete(this.urlbackend +"/api/v1/card/data/"+id_card )
-        .subscribe(response => {
-          console.log(response);
-          window.location.reload()
-        })
+deleteCard(id_card: string) {
+  
+  Swal.fire({
+    title: 'ยืนยันการลบ?',
+    text: "คุณต้องการนำสินค้าชิ้นนี้ออกจากตะกร้าใช่หรือไม่?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33', 
+    cancelButtonColor: '#757575',
+    confirmButtonText: 'ใช่, ลบเลย!',
+    cancelButtonText: 'ยกเลิก'
+  }).then((result) => {
+    
+    if (result.isConfirmed) {
+      
+      
+      Swal.fire({
+        title: 'กำลังลบ...',
+        didOpen: () => { Swal.showLoading(); }
+      });
+
+      this.http.delete(this.urlbackend + "/api/v1/card/data/" + id_card)
+        .subscribe({
+          next: (response) => {
+        
+            Swal.fire({
+              icon: 'success',
+              title: 'ลบสำเร็จ!',
+              text: 'สินค้าถูกนำออกจากตะกร้าแล้ว',
+              timer: 1500,
+              showConfirmButton: false
+            }).then(() => {
+              window.location.reload(); 
+            });
+          },
+          error: (err) => {
+            
+            Swal.fire({
+              icon: 'error',
+              title: 'เกิดข้อผิดพลาด',
+              text: 'ไม่สามารถลบสินค้าได้ในขณะนี้',
+              confirmButtonColor: '#f44336'
+            });
+          }
+        });
     }
-  }
+  });
+}
 
   ngOnInit(): void {
     this.chekprofile();

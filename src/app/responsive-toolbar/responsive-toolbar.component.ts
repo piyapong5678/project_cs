@@ -3,6 +3,7 @@ import { MenuItem } from '../menu-item';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-responsive-toolbar',
@@ -36,9 +37,35 @@ export class ResponsiveToolbarComponent implements OnInit {
   }
   
 
-  logout(){
-    sessionStorage.clear();
-    window.location.reload()
-    this.router.navigate(['home']);
-  }
+logout() {
+ 
+  Swal.fire({
+    title: 'ยืนยันการออกจากระบบ?',
+    text: "คุณต้องการออกจากระบบใช่หรือไม่?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33', 
+    cancelButtonColor: '#757575',
+    confirmButtonText: 'ออกจากระบบ',
+    cancelButtonText: 'ยกเลิก'
+  }).then((result) => {
+    
+    if (result.isConfirmed) {
+      sessionStorage.clear(); 
+      
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'ออกจากระบบสำเร็จ',
+        timer: 1500,
+        showConfirmButton: false
+      }).then(() => {
+        
+        this.router.navigate(['home']).then(() => {
+          window.location.reload(); 
+        });
+      });
+    }
+  });
+}
 }

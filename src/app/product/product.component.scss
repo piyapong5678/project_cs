@@ -16,3 +16,16 @@ h3{
 .example-spacer {
     flex: 1 1 auto;
   }
+  .product-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        transform: translateY(-5px); 
+        box-shadow: 0 10px 20px rgba(0,0,0,0.12); 
+    }
+}
+
+.text-decoration-none {
+    display: block; 
+}
