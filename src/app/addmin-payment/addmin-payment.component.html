@@ -93,8 +93,8 @@
                     </h5>
                     <div class="slip-container p-2 bg-white rounded shadow-sm border text-center"
                         style="width: 100%; max-width: 320px;">
-                        <img [src]="send.paymentModel.image_payment" class="img-fluid rounded zoom"
-                            style="max-height: 480px; cursor: zoom-in; transition: 0.3s;" alt="Payment Slip">
+                        <img [src]="urlbackend + '/api/v1/images/' + send.paymentModel.image_payment"
+                            class="img-fluid rounded zoom" alt="Payment Slip">
                     </div>
                     <p class="mt-3 text-muted small"><mat-icon style="font-size: 16px;"
                             class="align-middle">info</mat-icon> ชี้ที่รูปเพื่อขยายตรวจสอบรายละเอียด</p>
