@@ -25,14 +25,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-- name: Build
-        # ✅ ใช้ npx เพื่อความชัวร์ และตรวจสอบชื่อ /project_cs/ (ใช้ _ ไม่ใช่ -)
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
         run: npx ng build --configuration production --base-href /project_cs/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # ✅ แก้ไขตรงนี้: จาก project-cs เป็น project_cs ให้ตรงกับใน dist
           path: dist/project_cs
 
   deploy:
