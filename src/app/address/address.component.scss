@@ -1,4 +1,44 @@
-.spacer{
+.spacer {
     flex: 1 1 auto;
 }
 
+.address-card {
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1) !important;
+    }
+}
+
+.ls-1 {
+    letter-spacing: 0.5px;
+}
+
+// ปรับแต่งปุ่มใน Menu ให้ดูดีขึ้น
+::ng-deep .mat-menu-content {
+    padding: 4px !important;
+}
+.address-card {
+    transition: all 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    // ปรับแต่ง Badge ให้มีลักษณะมนเหมือนในรูปตัวอย่าง
+    .badge {
+        min-width: 100px;
+        letter-spacing: 0.5px;
+        font-weight: 500;
+    }
+
+    // ปรับแต่งปุ่ม Menu ไม่ให้ชิดขอบเกินไป
+    .custom-menu-btn {
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+
+        mat-icon {
+            font-size: 20px;
+        }
+    }
+}

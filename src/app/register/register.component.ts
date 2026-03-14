@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { APP_CONFIG } from '../shared/constants/constants';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -23,12 +23,51 @@ export class RegisterComponent  {
 
   constructor(private http: HttpClient){}
 
-  onSubmit(){
-    debugger;
-    const obj = this.regisForm.value;
-    this.http.post(this.urlbackend +'/api/v1/user/data',obj).subscribe((res:any)=>{
-      window.location.reload();
-    })
-  }
+onSubmit() {
+  const obj = this.regisForm.value;
+
+  
+  Swal.fire({
+    title: 'กำลังตรวจสอบข้อมูล...',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
+  this.http.post(this.urlbackend + '/api/v1/user/data', obj).subscribe({
+    next: (res: any) => {
+      
+      if (res == null) {
+        Swal.fire({
+          icon: 'error',
+          title: 'อีเมลนี้ถูกใช้งานแล้ว!',
+          text: 'กรุณาใช้ชื่ออีเมลอื่นในการสมัครสมาชิก',
+          confirmButtonText: 'ตกลง'
+        });
+      } else {
+      
+        Swal.fire({
+          icon: 'success',
+          title: 'สมัครสมาชิกสำเร็จ!',
+          text: 'ยินดีต้อนรับคุณ ' + res.firstname_user,
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => {
+        
+          window.location.reload(); 
+        });
+      }
+    },
+    error: (err) => {
+   
+      Swal.fire({
+        icon: 'error',
+        title: 'เกิดข้อผิดพลาด!',
+        text: 'ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ในขณะนี้',
+      });
+    }
+  });
+}
   hide = true;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core'; // ✅ เพิ่ม NgZone
 import { Card, ProductModel } from './card-model';
 import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -14,135 +14,124 @@ import Swal from 'sweetalert2';
 })
 export class CartProductComponent implements OnInit {
   urlbackend = APP_CONFIG.URL_BACKEND;
-  constructor(private http: HttpClient, 
-    private router: Router,
-    private _dialog: MatDialog){}
   
-  counter:number = 0;
-
-  counter2 :number[] = [];
+  constructor(
+    private http: HttpClient, 
+    private router: Router,
+    private _dialog: MatDialog,
+    private zone: NgZone // ✅ Inject NgZone เพื่ออัปเดต UI
+  ) {}
+  
+  counter: number = 0;
+  counter2: number[] = [];
   CardList: Card[] = [];
   total: number = 0;
   profileUser: boolean = false;
 
   CardAdd = new FormGroup({
-    id_card:  new FormControl(''),
-    number_card: new FormControl('',[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
+    id_card: new FormControl(''),
+    number_card: new FormControl('', [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
   })
 
-  decrease(index:any){
-    // if(this.counter-1>0){
-    //   this.counter--;
-    // }
-    console.log();
-    if(this.counter2[index]-1>0){
+  //  ปรับฟังก์ชันลดจำนวน: ลดแล้วส่งค่าไป API ทันที
+  decrease(index: any) {
+    if (this.counter2[index] - 1 > 0) {
       this.counter2[index] = this.counter2[index] - 1;
-      this.totalCard();
+      this.updateQuantity(index); // ส่งค่าไป Backend
     }
-    
   }
 
-  CardAll(){
-    // this.chekprofile();
-    // let id_user = JSON.parse(sessionStorage.getItem('user')!).id_user;
-    // let data = {
-    //   number_card: this.counter2,
-    // }
-    // this.http.put(this.urlbackend +'/api/v1/card/data/'+id_user,data).subscribe(response=>{
-    //   console.log(response);
-    // })
+  //  ปรับฟังก์ชันเพิ่มจำนวน: เพิ่มแล้วส่งค่าไป API ทันที
+  increase(index: any) {
+    this.counter2[index] = this.counter2[index] + 1;
+    this.updateQuantity(index); // ส่งค่าไป Backend
+  }
+
+  //  ฟังก์ชันสำหรับอัปเดตจำนวนในฐานข้อมูลทันที
+  updateQuantity(index: number) {
+    const id_card = this.CardList[index].id_card;
+    const data = { number_card: this.counter2[index] };
+
+    this.http.put(this.urlbackend + '/api/v1/card/data/' + id_card, data)
+      .subscribe({
+        next: () => {
+          this.zone.run(() => {
+            this.totalCard(); // คำนวณราคามวมใหม่บนหน้าจอ
+            // แจ้งเตือน Navbar ให้เปลี่ยนเลขตามแบบเรียลไทม์
+            window.dispatchEvent(new Event('cartUpdated')); 
+          });
+        },
+        error: (err) => {
+          console.error("Update Quantity Failed", err);
+        }
+      });
+  }
+
+  CardAll() {
     this.router.navigate(['shopping-card']);
     this._dialog.closeAll();
-
   }
 
-  increase(index:any){
-    // if(this.counter +1 < 100){
-    //   this.counter++;
-    // }
-
-    // if(counter +1 < 100){
-      this.counter2[index] = this.counter2[index] + 1;
-      console.log(this.counter2);
-      this.totalCard();
-    // }
-  }
   chekprofile() {
-    sessionStorage.hasOwnProperty('user');
     this.profileUser = sessionStorage.hasOwnProperty('user');
-    console.log(sessionStorage.hasOwnProperty('user'));
   }
 
 deleteCard(id_card: string) {
-  
-  Swal.fire({
-    title: 'ยืนยันการลบ?',
-    text: "คุณต้องการนำสินค้าชิ้นนี้ออกจากตะกร้าใช่หรือไม่?",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33', 
-    cancelButtonColor: '#757575',
-    confirmButtonText: 'ใช่, ลบเลย!',
-    cancelButtonText: 'ยกเลิก'
-  }).then((result) => {
-    
-    if (result.isConfirmed) {
-      
-      
-      Swal.fire({
-        title: 'กำลังลบ...',
-        didOpen: () => { Swal.showLoading(); }
-      });
-
-      this.http.delete(this.urlbackend + "/api/v1/card/data/" + id_card)
-        .subscribe({
-          next: (response) => {
-        
-            Swal.fire({
-              icon: 'success',
-              title: 'ลบสำเร็จ!',
-              text: 'สินค้าถูกนำออกจากตะกร้าแล้ว',
-              timer: 1500,
-              showConfirmButton: false
-            }).then(() => {
-              window.location.reload(); 
-            });
-          },
-          error: (err) => {
+  // 1. ส่งคำสั่ง Delete ไปยัง Backend ทันที
+  this.http.delete(this.urlbackend + "/api/v1/card/data/" + id_card)
+    .subscribe({
+      next: () => {
+        this.zone.run(() => {
+          // 2. ค้นหาตำแหน่งของสินค้าใน List
+          const index = this.CardList.findIndex(item => item.id_card === id_card);
+          
+          if (index !== -1) {
+            // 3. ลบข้อมูลออกจาก Array ทันทีเพื่อให้หน้าจออัปเดต
+            this.CardList.splice(index, 1);
+            this.counter2.splice(index, 1);
             
-            Swal.fire({
-              icon: 'error',
-              title: 'เกิดข้อผิดพลาด',
-              text: 'ไม่สามารถลบสินค้าได้ในขณะนี้',
-              confirmButtonColor: '#f44336'
-            });
+            // 4. คำนวณราคายอดรวมใหม่
+            this.totalCard();
+            
+            // 5. แจ้ง Navbar ให้ดึงจำนวนสินค้าใหม่ (เลขตะกร้า)
+            window.dispatchEvent(new Event('cartUpdated')); 
+            
+            // 6. ถ้าลบจนหมดตะกร้า ให้เซตยอดรวมเป็น 0
+            if (this.CardList.length === 0) {
+              this.total = 0;
+            }
           }
+          // หมายเหตุ: ลบ Swal.fire success ออกด้วยเพื่อให้ไม่มีแจ้งเตือนใดๆ เด้งขึ้นมา
         });
-    }
-  });
+      },
+      error: (err) => {
+        console.error('ลบสินค้าไม่สำเร็จ:', err);
+        // เลือกได้ว่าถ้าลบไม่สำเร็จ (เช่น Error 500) จะให้โชว์แจ้งเตือนหรือไม่
+      }
+    });
 }
 
   ngOnInit(): void {
     this.chekprofile();
-    let id_user = JSON.parse(sessionStorage.getItem('user')!).id_user;
-    this.http.get<Card[]>(this.urlbackend +'/api/v1/card/data-list/'+id_user).pipe()
-    .subscribe((response: Card[]) => {
-      this.CardList=response;
-      this.CardList.forEach((obj,index) => {
-      this.counter2[index] = Number(obj.number_card);
-      this.total = this.total + Number(Number(this.counter2[index])*Number(obj.productModel.price_product))
-    });
-      // this.CardAdd.controls['number_card'].setValue(response.number_card);
-    console.log(response);
-});
-
+    const userData = sessionStorage.getItem('user');
+    if (userData) {
+      const user = JSON.parse(userData);
+      this.http.get<Card[]>(this.urlbackend + '/api/v1/card/data-list/' + user.id_user)
+        .subscribe((response: Card[]) => {
+          this.CardList = response;
+          this.total = 0;
+          this.CardList.forEach((obj, index) => {
+            this.counter2[index] = Number(obj.number_card);
+            this.total += (this.counter2[index] * Number(obj.productModel.price_product));
+          });
+        });
+    }
   }
   
-  totalCard(){
+  totalCard() {
     this.total = 0;
-    this.CardList.forEach((obj,index) => {
-      this.total = this.total + Number(Number(this.counter2[index])*Number(obj.productModel.price_product))
+    this.CardList.forEach((obj, index) => {
+      this.total += (this.counter2[index] * Number(obj.productModel.price_product));
     });
   }
-
 }

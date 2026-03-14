@@ -1,42 +1,75 @@
-
-<div class="container" style="display: flex;justify-content: center;flex-direction: row;">
-    <div class="card" style="max-width:  60rem;">
-        <mat-toolbar>
-            <span>ที่อยู่จัดส่ง</span>&nbsp;&nbsp;
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card border-0 shadow-sm" style="max-width: 65rem; width: 100%; border-radius: 15px; overflow: hidden;">
+        <mat-toolbar class="bg-white border-bottom px-4 py-3" style="height: auto;">
+            <div class="d-flex align-items-center">
+                <mat-icon class="text-primary me-2">location_on</mat-icon>
+                <span class="fw-bold text-dark" style="font-size: 1.4rem;">ที่อยู่สำหรับจัดส่ง</span>
+            </div>
             <span class="spacer"></span>
-            <button mat-raised-button color="primary" (click)=" openAddAddress()"> <mat-icon class="mr">add</mat-icon>เพิ่มที่อยู่ใหม่</button>
+            <button mat-raised-button color="primary" class="rounded-pill px-4" (click)="openAddAddress()">
+                <mat-icon>add</mat-icon> เพิ่มที่อยู่ใหม่
+            </button>
         </mat-toolbar>
-        <div class="card-body">
-            <div class="row row-cols-1 row-cols-md-2 g-4">
-                <div *ngFor="let address of AddressList">
-                    <div class="col">
-                        <div class="card text-dark bg-light mb-3" style="max-width: 40rem;">
-                            <mat-toolbar color="primary">
-                                <span>ที่อยู่จัดส่ง</span>
-                                <span class="spacer"></span>
-                                <button mat-icon-button [mat-menu-trigger-for]="manage">
-                                    <mat-icon>more_vert</mat-icon>
+
+        <div class="card-body p-4 bg-light">
+            <div class="row g-4">
+                <div class="col-12 col-md-6 d-flex" *ngFor="let address of AddressList">
+                    <div class="card w-100 border-0 shadow-sm address-card"
+                        style="border-radius: 16px; overflow: hidden;">
+                        <div class="card-body p-0">
+                            <div
+                                class="d-flex justify-content-between align-items-center px-3 py-2 bg-light border-bottom">
+                                <div class="d-flex align-items-center">
+                                    <span
+                                        class="badge rounded-pill bg-primary px-3 py-2 d-flex align-items-center shadow-sm"
+                                        style="font-size: 0.75rem;">
+                                        <mat-icon class="me-1"
+                                            style="font-size: 16px; width: 16px; height: 16px;">home</mat-icon>
+                                        ที่อยู่จัดส่ง
+                                    </span>
+                                </div>
+
+                                <button mat-icon-button [matMenuTriggerFor]="manage"
+                                    class="text-secondary custom-menu-btn">
+                                    <mat-icon>more_horiz</mat-icon>
                                 </button>
-                            </mat-toolbar>
-                            <div class="card-body">
-                                <h3 class="card-title">{{address.firstname_address}} &nbsp;{{address.lastname_address}}</h3>
-                                <p class="card-text">บ้านเลขที่&nbsp;{{address.housenumber_address}}&nbsp;หมู่&nbsp;{{address.village_address}}&nbsp;บ้าน/อาคาร.{{address.housename_address}}
-                                    &nbsp;ซอย.{{address.subdistrict_address}}&nbsp;ถนน/แยก.{{address.road_address}}&nbsp;ตำบล/เขต.{{address.district_address}}&nbsp;อำเภอ/แขวง.{{address.prefecture_address}}&nbsp;จังหวัด.{{address.province_address}}&nbsp;
-                                    {{address.postcode_address}}&nbsp;เบอร์โทร.{{address.phone_address}} </p>
+                            </div>
+
+                            <div class="p-4 bg-white">
+                                <h5 class="fw-bold text-dark mb-2">{{address.firstname_address}}
+                                    {{address.lastname_address}}</h5>
+                                <div class="d-flex align-items-center text-muted small mb-3">
+                                    <mat-icon class="me-1"
+                                        style="font-size: 16px; width: 16px; height: 16px;">phone</mat-icon>
+                                    {{address.phone_address}}
+                                </div>
+                                <p class="card-text text-secondary m-0" style="line-height: 1.7; font-size: 0.95rem;">
+                                    บ้านเลขที่ {{address.housenumber_address}} หมู่ {{address.village_address}}
+                                    {{address.housename_address ? 'อาคาร ' + address.housename_address : ''}} <br>
+                                    ตำบล{{address.district_address}} อำเภอ{{address.prefecture_address}} <br>
+                                    จังหวัด{{address.province_address}} {{address.postcode_address}}
+                                </p>
                             </div>
                         </div>
                     </div>
+
                     <mat-menu #manage="matMenu">
-                        <div class="container">
-                            <button mat-button color="primary" (click)="EditAddress(address.id_address)">edit</button><br>
-                            <button mat-button color="warn" (click)="deleteProfile(address.id_address)">delete</button>
-                        </div>
+                        <button mat-menu-item (click)="EditAddress(address.id_address)">
+                            <mat-icon color="primary">edit</mat-icon>
+                            <span>แก้ไขข้อมูล</span>
+                        </button>
+                        <button mat-menu-item (click)="deleteProfile(address.id_address)">
+                            <mat-icon color="warn">delete</mat-icon>
+                            <span>ลบทิ้ง</span>
+                        </button>
                     </mat-menu>
                 </div>
-        </div>
+            </div>
+            <div *ngIf="AddressList?.length === 0" class="text-center py-5">
+                <mat-icon style="font-size: 64px; width: 64px; height: 64px;"
+                    class="text-muted mb-3">location_off</mat-icon>
+                <p class="text-muted">คุณยังไม่มีข้อมูลที่อยู่จัดส่ง</p>
+            </div>
         </div>
     </div>
-
-
-</div> 
-
+</div>

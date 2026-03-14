@@ -1,61 +1,85 @@
-<br>
-<div class="card" style="max-width: 50rem;">
-    <form [formGroup]="CardAdd">
-        <div class="container">
-            <br>
-            <nav class="navbar navbar-light bg-light mb-3" style="max-width: 40rem">
-                <div class="container-fluid">
-                    <a class="navbar-brand">ตระกร้าสินค้า</a>
+<div class="cart-dialog-container" style="max-width: 600px; width: 100%; margin: auto;">
+    <form [formGroup]="CardAdd" class="d-flex flex-column">
+
+        <div class="cart-header p-4 border-bottom bg-white sticky-top">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <!-- <div class="bg-primary bg-opacity-10 p-2 rounded-3 me-3">
+                        <mat-icon color="primary">shopping_cart</mat-icon>
+                    </div> -->
+                    <div>
+                        <h4 class="fw-bold mb-0 text-dark">ตะกร้าสินค้าของคุณ</h4>
+                        <small class="text-muted">ตรวจสอบรายการสินค้าก่อนชำระเงิน</small>
+                    </div>
                 </div>
-            </nav>
-            <div *ngFor="let card of CardList,let i = index">
-                <div class="card mb-3" style="  max-width: 40em;
-                flex-direction: row;
-                box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; background-color: var(--bs-primary-bg-subtle)!important ;
-                color: #000000;">
-                    <img src="{{card.productModel.image_product}}" class="card-img-top" alt="..." style="max-width: 25%;margin: auto;padding: 0.5em;border-radius: 0.7em;">
-                    <div class="card-body" style="    display: flex; justify-content: space-between;">
-                        <div class="text-section" style=" max-width: 60%;">
-                            <h2 class="card-title">{{card.productModel.name_product}}</h2>
-                            <p class="card-text">{{card.productModel.detail_product}} .</p>
-                            <div class="input-group mb-3" style="width: 130px;">
-                                <button class="input-group-text bg-white"  (click)="decrease(i)">-</button>
-                                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" style="text-align: center;"    [value]="counter2[i]">
-                                <button class="input-group-text bg-white" (click)="increase(i)">+</button>
-                            </div>
-                            <!-- <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1" >จำนวน</span>
-                                <input style="max-width: 40%;" type="text" class="form-control" placeholder="จำนวน" formControlName="number_card"
-                                    aria-describedby="basic-addon1">
-                            </div>
-                            <mat-error *ngIf="CardAdd.controls.number_card.invalid && CardAdd.controls.number_card.touched">
-                                กรุณาระบุจำนวน.
-                            </mat-error> -->
+                <button type="button" mat-icon-button mat-dialog-close class="bg-light">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="product-list p-4" style="min-height: 200px;">
+            <div *ngIf="CardList?.length === 0" class="text-center py-5">
+                <mat-icon style="font-size: 64px; width: 64px; height: 64px;"
+                    class="text-muted opacity-25">shopping_basket</mat-icon>
+                <p class="text-muted mt-3">ยังไม่มีสินค้าในตะกร้าของคุณ</p>
+            </div>
+
+            <div *ngFor="let card of CardList, let i = index">
+                <div class="card mb-3 border-0 shadow-sm product-item-card" style="border-radius: 16px;">
+                    <div class="d-flex flex-row p-3">
+                        <div class="img-wrapper d-flex align-items-center justify-content-center rounded-3 bg-white border"
+                            style="width: 100px; height: 100px; flex-shrink: 0;">
+                            <img [src]="card.productModel.image_product" class="img-fluid rounded-2"
+                                style="max-height: 90%; object-fit: contain;">
                         </div>
-                        <div class="cta-section" style="    max-width: 40%;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: flex-end;
-                        justify-content: space-between;">
-                            <div><button mat-icon-button color="warn" (click)=" deleteCard(card.id_card)">
-                                    <mat-icon>delete</mat-icon>
-                                </button></div>
-                            <div>฿{{card.productModel.price_product}}</div>
+
+                        <div class="card-body py-0 px-4 d-flex flex-column justify-content-between">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h5 class="fw-bold text-dark mb-1">{{card.productModel.name_product}}</h5>
+                                    <p class="text-muted small mb-0 text-truncate-2">
+                                        {{card.productModel.detail_product}}</p>
+                                </div>
+                                <button type="button" mat-icon-button color="warn" (click)="deleteCard(card.id_card)"
+                                    class="ms-2">
+                                    <mat-icon>delete_outline</mat-icon>
+                                </button>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div
+                                    class="input-group quantity-box-large shadow-sm border rounded-pill overflow-hidden">
+                                    <button type="button" class="btn btn-light px-3" (click)="decrease(i)">-</button>
+                                    <input type="text" class="form-control border-0 text-center fw-bold bg-white"
+                                        [value]="counter2[i]" readonly style="width: 40px;">
+                                    <button type="button" class="btn btn-light px-3" (click)="increase(i)">+</button>
+                                </div>
+                                <div class="text-end">
+                                    <!-- <span class="text-muted small d-block">ราคาต่อชิ้น</span> -->
+                                    <span class="fw-bold fs-5 text-primary">฿{{card.productModel.price_product |
+                                        number}}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <nav class="navbar navbar-light bg-light">
-                <div class="container-fluid">
-                    <!-- <button mat-button>ยอดชำระเงิน: ฿{{total}}.00</button> -->
-                        <h4>ยอดชำระเงิน: ฿{{total}}.00</h4>
+        </div>
+
+        <div class="cart-footer p-4 bg-white border-top sticky-bottom">
+            <div class="row align-items-center g-3">
+                <div class="col-sm-6 text-center text-sm-start">
+                    <span class="text-muted d-block small">รวมยอดชำระทั้งสิ้น</span>
+                    <span class="display-6 fw-bold text-danger">฿{{total | number}}.00</span>
                 </div>
-                <div class="container-fluid">
-                    <button mat-raised-button color="warn" style="width: 100%;" (click)=" CardAll()">สั่งซื้อสินค้าในตระกร้า</button>
+                <div class="col-sm-6">
+                    <button mat-raised-button color="warn" class="w-100 py-3 rounded-pill fw-bold shadow btn-lg"
+                        (click)="CardAll()" [disabled]="CardList.length === 0">
+                        <mat-icon class="me-2">shopping_cart_checkout</mat-icon> สั่งซื้อสินค้า
+                    </button>
                 </div>
-            </nav><br>
+            </div>
         </div>
     </form>
-
-
 </div>

@@ -13,10 +13,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./manage-product.component.scss']
 })
 export class ManageProductComponent implements OnInit{
-
+ 
   constructor(private _dialog: MatDialog, private http: HttpClient, private router: Router){}
   urlbackend = APP_CONFIG.URL_BACKEND;
   ProductList : Product[] = [];
+
 
   openAddProduct(){
     this._dialog.open(AddProductComponent,{
@@ -74,6 +75,7 @@ deleteProduct(id_product: String) {
 }
 
   ngOnInit(): void {
+    
     this.http.get<Product[]>(this.urlbackend +"/api/v1/product")
     .subscribe(response=>{
       console.log(response);
@@ -100,6 +102,12 @@ deleteProduct(id_product: String) {
   //   })
   
   }
+getStockStatus(count: any): string {
+  const num = Number(count);
+  if (num > 10) return 'stock-high';
+  if (num > 0) return 'stock-low';
+  return 'stock-empty';
+}
 }
 
 

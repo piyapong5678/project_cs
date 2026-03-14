@@ -1,90 +1,90 @@
-<div class="container">
-    <mat-card>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="container">
-                        <br>
-                        <mat-toolbar>
-                            <button mat-icon-button  (click)="blackCard()" color="warn">
-                                <mat-icon >arrow_back</mat-icon>&nbsp;       
-                            </button>   
-                            <span>สั่งซื้อ</span>                 
-                        </mat-toolbar>
-                        <br>
-                        <div *ngFor="let card of CardList">
-                            <div class="card mb-3"
-                                style="    max-width: 40em;flex-direction: row;box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; background-color: var(--bs-primary-bg-subtle)!important;color: #000000;">
-                                <img src="{{card.productModel.image_product}}" class="card-img-top" alt="..."
-                                    style="max-width: 25%; margin: auto; padding: 0.5em;border-radius: 0.7em;">
-                                <div class="card-body" style=" display: flex;justify-content: space-between;">
-                                    <div class="text-section" style=" max-width: 60%;">
-                                        <h2 class="card-title">{{card.productModel.name_product}}</h2>
-                                        <p class="card-text">{{card.productModel.detail_product}}.</p>
-                                    </div>
-                                    <div class="cta-section"
-                                        style="    max-width: 40%;display: flex;flex-direction: column;align-items: flex-end;justify-content: space-between;">
-                                        <div>x{{card.number_card}}</div>
-                                        <div>฿{{card.productModel.price_product}}</div>
-                                    </div>
-                                </div>
+<div class="checkout-container">
+    <mat-card class="main-card">
+        <div class="row g-4">
+
+            <div class="col-lg-7">
+                <div class="section-header">
+                    <button mat-icon-button (click)="blackCard()" color="warn">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    <h2 class="m-0">รายการสั่งซื้อ</h2>
+                </div>
+
+                <div class="product-list mt-3">
+                    <div *ngFor="let card of CardList" class="product-item-card">
+                        <img [src]="card.productModel.image_product" class="product-img" alt="product">
+                        <div class="product-details">
+                            <div class="info">
+                                <h3>{{card.productModel.name_product}}</h3>
+                                <p class="text-muted small">{{card.productModel.detail_product}}</p>
                             </div>
-                        </div>
-                        <nav class="navbar navbar-light bg-light" >
-                            <div class="container-fluid">
-                                <button mat-button>ยอดชำระเงิน: ฿{{total}}.00</button>
-                            </div>
-                        </nav>
-                    </div>
-                    <div class="card-body">
-                        <div class="card text-dark bg-light mb-3" >
-                            <mat-toolbar color="primary">
-                                <span>ที่อยู่ที่จัดส่ง</span>
-                            </mat-toolbar>
-                            <div class="card-body">
-                                <h3 class="card-title">{{fullname}}</h3>
-                                <p class="card-text">{{address}}</p>
+                            <div class="price-qty">
+                                <span class="qty">x{{card.number_card}}</span>
+                                <span class="price">฿{{card.productModel.price_product | number}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <br>
-                    <button mat-button>
-                        <mat-icon class="mr">account_balance</mat-icon>
-                        ช่องทางการชำระ
-                    </button>
-                    <br>
-                    <br>
-                    <div class="card text-dark  mb-3" style="max-width: 25rem; background-color: #6610f2;">
-                        <div class="card-body">
-                            <h4 class="card-text" style="color: #fff;">ไทยพาณิชย์: 4110213377</h4>
+
+                <div class="total-bar mt-3">
+                    <span>ยอดชำระรวมทั้งหมด:</span>
+                    <span class="total-amount">฿{{total | number:'.2'}}</span>
+                </div>
+
+                <mat-card class="address-card mt-4">
+                    <mat-toolbar color="primary" class="rounded-top">
+                        <mat-icon class="me-2">location_on</mat-icon>
+                        <span>ที่อยู่จัดส่ง</span>
+                    </mat-toolbar>
+                    <mat-card-content class="p-3">
+                        <h4 class="fw-bold">{{fullname}}</h4>
+                        <p class="mb-0 text-secondary">{{address}}</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="payment-section">
+                    <div class="section-header mb-4">
+                        <mat-icon class="me-2">account_balance</mat-icon>
+                        <h2 class="m-0">ช่องทางการชำระ</h2>
+                    </div>
+
+                    <div class="bank-card scb">
+                        <div class="bank-logo">SCB</div>
+                        <div class="bank-info">
+                            <p>ไทยพาณิชย์</p>
+                            <h3>411-021337-7</h3>
                         </div>
                     </div>
-                    <div class="card text-dark  mb-3" style="max-width: 25rem; background-color: #108cf2;">
-                        <div class="card-body">
-                            <h4 class="card-text" style="color: #fff;">กรุงไทย พพ: 0621813560</h4>
+
+                    <div class="bank-card ktb">
+                        <div class="bank-logo">KTB</div>
+                        <div class="bank-info">
+                            <p>กรุงไทย (พร้อมเพย์)</p>
+                            <h3>062-181-3560</h3>
                         </div>
                     </div>
-                    <button mat-button>
-                        <mat-icon class="mr">receipt_long</mat-icon>
-                        แจ้งหลักฐานการชำระ
-                    </button>
-                    <div>
-                        <img src="" alt="">
-                        <input class="form-control" type="file" id="formFile" style="width: 40%;" (change)="onFileSelected($event)">
-                    </div><br>
-                    <div class="row">
-                        <div class="col">
-                            <button type="button" class="btn btn-primary" style="width: 90%;" (click)="Submit()" [disabled]="fileCheck">ยืนยัน</button>
-                        </div>
-                        <div class="col">
-                            <button type="button" class="btn btn-danger" style="width: 90%;" (click)="cross()">ข้าม</button>
-                        </div>
+
+                    <div class="upload-section mt-4">
+                        <label class="form-label fw-bold">
+                            <mat-icon class="align-middle">receipt_long</mat-icon> แจ้งหลักฐานการชำระ
+                        </label>
+                        <input class="form-control custom-file-input" type="file" (change)="onFileSelected($event)">
+                    </div>
+
+                    <div class="action-buttons mt-5">
+                        <button mat-flat-button color="primary" class="w-100 mb-2 py-2" (click)="Submit()"
+                            [disabled]="fileCheck">
+                            <mat-icon>check_circle</mat-icon> ยืนยันการสั่งซื้อ
+                        </button>
+                        <button mat-stroked-button color="warn" class="w-100 py-2" (click)="cross()">
+                            ข้ามขั้นตอนการแนบสลิป
+                        </button>
                     </div>
                 </div>
             </div>
+
         </div>
     </mat-card>
 </div>
-

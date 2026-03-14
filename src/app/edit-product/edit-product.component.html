@@ -14,6 +14,16 @@
             </div><br> -->
             <div>
                 <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>รูปภาพ</mat-label>
+                    <input matInput formControlName="image_product" />
+                </mat-form-field>
+                <mat-error
+                *ngIf="EditProduct.controls.image_product.invalid && EditProduct.controls.image_product.touched">
+                กรุณาระบุรูปภาพ.
+                </mat-error>
+            </div>
+            <div>
+                <mat-form-field class="full-width" appearance="outline">
                     <mat-label>ชื่อสินค้า</mat-label>
                     <input matInput formControlName="name_product" />
                 </mat-form-field>

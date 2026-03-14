@@ -1,45 +1,55 @@
-<div *ngFor="let send of SendList">
-    <div class="container" >
-        <mat-card>
-            <br>
-            <div class="container">
-                <div class="row row-cols-1 row-cols-md-2 g-2">
-                    <div class="col">
-                        <nav class="navbar navbar-light bg-light mb-3" >
-                            <div class="container-fluid">
-                                <a class="navbar-brand" >ประวัติการสั่งซื้อ</a>
-                                <span class="example-spacer"></span>
+<div *ngFor="let send of SendList" class="container mt-4">
+    <mat-card class="order-card shadow-sm border-0 mb-4" style="border-radius: 12px; overflow: hidden;">
+        <mat-toolbar style="background-color: #6c757d; color: white;">
+            <mat-icon class="me-2">history</mat-icon>
+            <span>ประวัติการสั่งซื้อ</span>
+            <span class="example-spacer"></span>
+            <small class="d-none d-md-inline">รหัสรายการ: {{send.id_send}}</small>
+        </mat-toolbar>
+
+        <div class="card-content p-0">
+            <div class="row g-0">
+                <div class="col-lg-8 p-4 border-end bg-white">
+                    <h3 class="fw-bold mb-3" style="color: #495057; font-size: 1.1rem;">รายการสินค้า</h3>
+
+                    <div class="product-container" style="max-height: 400px; overflow-y: auto;">
+                        <div *ngFor="let sendCardPd of send.cardProductModel"
+                            class="d-flex align-items-center mb-3 p-3 rounded"
+                            style="background-color: #f8f9fa; border: 1px solid #eee; transition: 0.3s;">
+                            <img [src]="sendCardPd.productModel.image_product" class="rounded shadow-sm"
+                                style="width: 80px; height: 80px; object-fit: cover;">
+
+                            <div class="ms-3 flex-grow-1">
+                                <div class="fw-bold text-dark fs-6">{{sendCardPd.productModel.name_product}}</div>
+                                <div class="text-muted small mt-1">{{sendCardPd.productModel.detail_product}}</div>
                             </div>
-                        </nav>
-                        <div *ngFor="let sendCardPd of send.cardProductModel">
-                            <div class="card mb-3" style="flex-direction: row;box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; background-color: var(--bs-primary-bg-subtle)!important;color: #000000;">
-                                <img src="{{sendCardPd.productModel.image_product}}" class="card-img-top" alt="..." style="max-width: 25%;margin: auto;padding: 0.5em;border-radius: 0.7em;">
-                                <div class="card-body" style="    display: flex; justify-content: space-between;">
-                                    <div class="text-section" style=" max-width: 60%;">
-                                        <h2 class="card-title">{{sendCardPd.productModel.name_product}}</h2>
-                                        <p class="card-text">{{sendCardPd.productModel.detail_product}}.</p>
-                                    </div>
-                                    <div class="cta-section" style="max-width: 40%;display: flex;flex-direction: column;align-items: flex-end;justify-content: space-between;">
-                                        <div>x{{sendCardPd.number_card}}</div>
-                                        <div>฿{{sendCardPd.productModel.price_product}}.00</div>
-                                    </div>
-                                </div>
-                            </div><br>
+
+                            <div class="text-end ms-3">
+                                <div class="small text-muted">จำนวน x{{sendCardPd.number_card}}</div>
+                                <div class="fw-bold text-primary mt-1">฿{{sendCardPd.productModel.price_product |
+                                    number:'.2-2'}}</div>
+                            </div>
                         </div>
-                        <nav class="navbar navbar-light bg-light" >
-                            <div class="container-fluid">
-                                <button mat-button>ยอดชำระเงิน: ฿{{send.paymentModel.total_payment}}.00</button>
-                            </div>
-                        </nav><br>
-                        <br>        
-                    </div>
-                    <div class="col">
-                        
                     </div>
                 </div>
-            </div>
-    
-        </mat-card><br>
-    </div>
-</div>
 
+                <div class="col-lg-4 p-4 bg-light d-flex flex-column justify-content-center border-start">
+                    <div class="summary-box p-4 rounded bg-white shadow-sm border text-center">
+                        <div class="text-muted small text-uppercase mb-2 fw-bold">ยอดชำระเงินทั้งหมด</div>
+                        <div class="fs-2 fw-bold text-dark mb-3">
+                            ฿{{send.paymentModel.total_payment | number:'.2-2'}}
+                        </div>
+                        <hr>
+                        <!-- <div class="d-grid gap-2 mt-3">
+                            <button mat-stroked-button color="primary" class="w-100 py-1" style="border-radius: 8px;">
+                                <mat-icon style="font-size: 18px;">receipt_long</mat-icon> ดูรายละเอียดเพิ่ม
+                            </button>
+                        </div> -->
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>

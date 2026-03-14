@@ -1,46 +1,94 @@
-<div class="container">
-    <div class="row">
-        <nav class="navbar navbar-light bg-light">
-            <div class="container-fluid">
-                <h1>จัดการสินค้า</h1>
-                <span class="example-spacer"></span>
-                <button mat-raised-button color="primary" (click)="openAddProduct()"><mat-icon>add</mat-icon>
-                    เพิ่มสินค้า</button>
-            </div>
-        </nav>
-    </div><br>
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <mat-card class="header-card shadow border-0"
+                style="background: linear-gradient(135deg, #4c5fd7 0%, #2e3eb1 100%); border-radius: 20px;">
+                <div class="p-3 d-flex align-items-center justify-content-between">
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">ชื่อสินค้า</th>
-                <th scope="col">รายละเอียดสินค้า</th>
-                <th scope="col">ราคา</th>
-                <th scope="col">จำนวน</th>
-                <th scope="col">ประเภท</th>
-                <th scope="col">รูปภาพ</th>
-                <th scope="col">จัดการ</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let product of ProductList">
-                <td>{{product.name_product}}</td>
-                <td>{{product.detail_product}}</td>
-                <td>฿{{product.price_product}}</td>
-                <td>{{product.number_product}}</td>
-                <td>{{product.type_product}}</td>
-                <td><img src="{{product.image_product}}" alt="Avatar" style="width: 50px;"></td>
-                <td>
-                    <div class="row">
-                        <div class="col">
-                            <button mat-button (click)="EditProduct(product.id_product)">แก้ไข</button>
+                    <div class="d-flex align-items-center ms-2">
+                        <div class="icon-box d-flex align-items-center justify-content-center rounded-circle me-3 shadow-sm"
+                            style="width: 55px; height: 55px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);">
+                            <mat-icon
+                                style="color: white; font-size: 28px; width: 28px; height: 28px;">inventory_2</mat-icon>
                         </div>
-                        <div class="col">
-                            <button mat-button color="warn" (click)="deleteProduct(product.id_product)">ลบ</button>
+
+                        <div class="text-white">
+                            <h2 class="mb-0 fw-bold" style="letter-spacing: 0.5px; font-size: 1.6rem;">คลังสินค้า</h2>
+                            <p class="mb-0 opacity-75 small fw-light">Dashboard สำหรับจัดการและตรวจสอบสต็อกสินค้า</p>
                         </div>
                     </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
+                    <div class="me-2">
+                        <button mat-flat-button (click)="openAddProduct()"
+                            class="rounded-pill shadow-sm py-2 px-4 fw-bold"
+                            style="background: white; color: #3f51b5; transition: 0.3s;">
+                            <mat-icon class="me-1">add_circle</mat-icon>
+                            เพิ่มสินค้าใหม่
+                        </button>
+                    </div>
+
+                </div>
+            </mat-card>
+        </div>
+    </div>
+
+    <mat-card class="shadow-sm border-0" style="border-radius: 16px; overflow: hidden;">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" style="border-collapse: separate; border-spacing: 0;">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4 py-3 text-secondary small text-uppercase fw-bold">รูปภาพ</th>
+                        <th class="py-3 text-secondary small text-uppercase fw-bold">ชื่อสินค้า</th>
+                        <th class="py-3 text-secondary small text-uppercase fw-bold">ประเภท</th>
+                        <th class="py-3 text-secondary small text-uppercase fw-bold text-end">ราคา</th>
+                        <th class="py-3 text-secondary small text-uppercase fw-bold text-center">คงเหลือ</th>
+                        <th class="py-3 text-secondary small text-uppercase fw-bold text-center pe-4">จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    <tr *ngFor="let product of ProductList" class="product-row">
+                        <td class="ps-4">
+                            <div class="img-wrapper shadow-sm rounded-3 border"
+                                style="width: 55px; height: 55px; overflow: hidden;">
+                                <img [src]="product.image_product"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="fw-bold text-dark">{{product.name_product}}</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">ID: {{product.id_product}}</div>
+                        </td>
+                        <td>
+                            <span
+                                class="badge rounded-pill px-3 py-2 bg-light text-primary border border-primary border-opacity-25">
+                                {{product.type_product}}
+                            </span>
+                        </td>
+                        <td class="text-end fw-bold text-dark">
+                            ฿{{product.price_product | number:'.2-2'}}
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div [class]="'status-dot me-2 ' + getStockStatus(product.number_product)"></div>
+                                <span class="fw-bold">{{product.number_product}}</span>
+                            </div>
+                        </td>
+                        <td class="text-center pe-4">
+                            <div class="btn-group bg-light rounded-pill p-1">
+                                <button mat-icon-button class="text-primary" (click)="EditProduct(product.id_product)"
+                                    title="แก้ไข">
+                                    <mat-icon style="font-size: 20px;">edit</mat-icon>
+                                </button>
+                                <div class="vr my-2 text-muted opacity-25"></div>
+                                <button mat-icon-button class="text-danger" (click)="deleteProduct(product.id_product)"
+                                    title="ลบ">
+                                    <mat-icon style="font-size: 20px;">delete_outline</mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </mat-card>
 </div>

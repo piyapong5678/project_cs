@@ -35,57 +35,61 @@ export class LoginComponent implements OnInit {
 
   hide = true;
 
-  onLogin() {
-    const obj = {
-      email_user: this.loginForm.value.email,
-      password_user: this.loginForm.value.password,
-    };
+onLogin() {
+  const obj = {
+    email_user: this.loginForm.value.email,
+    password_user: this.loginForm.value.password,
+  };
 
-    this.http.post(this.urlbackend + '/api/v1/login', obj).subscribe({
-      next: (res: any) => {
-        if (res.id_user == null) {
-          
-          Swal.fire({
-            title: 'ไม่พบบัญชีผู้ใช้!',
-            text: 'ไม่พบอีเมลนี้ในระบบ กรุณาตรวจสอบอีกครั้ง',
-            icon: 'warning',
-            confirmButtonText: 'ตกลง'
-          });
-          sessionStorage.clear();
-
-        } else if (res.status_login) {
-          
-          Swal.fire({
-            title: 'เข้าสู่ระบบสำเร็จ!',
-            text: 'ยินดีต้อนรับคุณ ' + (res.name_user ? res.name_user : 'ผู้ใช้งาน'),
-            icon: 'success',
-            timer: 1500,
-            showConfirmButton: false
-          }).then(() => {
-            sessionStorage.setItem('user', JSON.stringify(res));
-            window.location.reload();
-          });
-
-        } else {
-      
-          Swal.fire({
-            title: 'รหัสผ่านผิด!',
-            text: 'กรุณาตรวจสอบรหัสผ่านของคุณใหม่อีกครั้ง',
-            icon: 'error',
-            confirmButtonText: 'ลองใหม่'
-          });
-          sessionStorage.clear();
-        }
-      },
-      error: (err) => {
-    
+  this.http.post(this.urlbackend + '/api/v1/login', obj).subscribe({
+    next: (res: any) => {
+  
+      if (res.id_user == null) {
+        sessionStorage.clear();
         Swal.fire({
-          title: 'เกิดข้อผิดพลาด!',
-          text: 'ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ในขณะนี้',
-          icon: 'error',
+          title: 'ไม่พบบัญชีผู้ใช้!',
+          text: 'ไม่พบอีเมลนี้ในระบบ กรุณาตรวจสอบอีกครั้ง',
+          icon: 'warning',
           confirmButtonText: 'ตกลง'
         });
+
+
+      } else if (res.status_login) {
+  
+        sessionStorage.setItem('user', JSON.stringify(res));
+
+        Swal.fire({
+          title: 'เข้าสู่ระบบสำเร็จ!',
+          text: 'ยินดีต้อนรับคุณ ' + (res.name_user ? res.name_user : 'ผู้ใช้งาน'),
+          icon: 'success',
+          timer: 1500,
+          showConfirmButton: false
+        }).then(() => {
+
+          window.location.href = '/home'; 
+        });
+
+      
+      } else {
+        sessionStorage.clear();
+        Swal.fire({
+          title: 'รหัสผ่านผิด!',
+          text: 'กรุณาตรวจสอบรหัสผ่านของคุณใหม่อีกครั้ง',
+          icon: 'error',
+          confirmButtonText: 'ลองใหม่'
+        });
       }
-    });
-  }
+    },
+    error: (err) => {
+      
+      Swal.fire({
+        title: 'เกิดข้อผิดพลาด!',
+        text: 'ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ในขณะนี้',
+        icon: 'error',
+        confirmButtonText: 'ตกลง'
+      });
+      console.error("Login Error:", err);
+    }
+  });
+}
 }

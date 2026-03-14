@@ -1,78 +1,102 @@
-
-
-<mat-toolbar  color="primary" class="mat-elevation-z8">
-    <button mat-icon-button (click)="sidenav.toggle()" id="menuIcon" aria-label="Example icon-button with menu icon">
+<mat-toolbar color="primary" class="mat-elevation-z8 custom-toolbar">
+    <button mat-icon-button (click)="sidenav.toggle()" id="menuIcon">
         <mat-icon>menu</mat-icon>
     </button>
+
     <span id="menuTitle">My App</span>
+
     <div class="spacer"></div>
-    <button mat-button routerLink="home" class="top-menu-item">
-        <mat-icon class="mr">home</mat-icon>
-        หน้าหลัก
-    </button>
-    <button mat-button routerLink="order" class="top-menu-item"  >
-        <mat-icon class="mr">attach_money</mat-icon>
-        สถาณะการสั่งซื้อของฉัน
-    </button>
-    <button mat-button routerLink="shopping-card" class="top-menu-item"  >
-        <mat-icon class="mr">shopping_cart</mat-icon>
-        ตระกร้าสินค้า
-    </button>
 
-    <button mat-button  [matMenuTriggerFor]="about"  *ngIf="checkLoinUser && roleCode=='admin'" > เจ้าของร้าน
-        <mat-icon>expand_more</mat-icon> </button>
+    <div class="top-menu-group">
+        <button mat-button routerLink="home" routerLinkActive="active-link" class="top-menu-item">
+            <mat-icon>home</mat-icon> หน้าหลัก
+        </button>
 
-        <button mat-button  [matMenuTriggerFor]="about1" class="top-menu-item" *ngIf="checkLoinUser"> 
-            <mat-icon>account_circle</mat-icon> </button>
+        <ng-container *ngIf="checkLoinUser">
+            <button mat-button routerLink="order" routerLinkActive="active-link" class="top-menu-item">
+                <mat-icon>account_balance_wallet</mat-icon> สถานะการสั่งซื้อ
+            </button>
 
-    <button mat-button (click)="openAddLoginEmForm()" class="top-menu-item" *ngIf="!checkLoinUser">
-        <mat-icon class="mr">login</mat-icon>
-        Login
-    </button>
+            <button mat-button routerLink="shopping-card" routerLinkActive="active-link" class="top-menu-item">
+                <mat-icon [matBadge]="cartCount > 0 ? cartCount : null" matBadgeColor="warn">shopping_cart</mat-icon>
+                ตะกร้าสินค้า
+            </button>
+
+            <button mat-button [matMenuTriggerFor]="about" *ngIf="roleCode === 'admin'" class="top-menu-item admin-btn">
+                <mat-icon>admin_panel_settings</mat-icon> เจ้าของร้าน <mat-icon>expand_more</mat-icon>
+            </button>
+
+            <button mat-icon-button [matMenuTriggerFor]="about1" class="top-menu-item">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+        </ng-container>
+
+        <button mat-raised-button color="accent" (click)="openAddLoginEmForm()" class="top-menu-item login-btn"
+            *ngIf="!checkLoinUser">
+            <mat-icon>login</mat-icon> เข้าสู่ระบบ
+        </button>
+    </div>
 </mat-toolbar>
 
-<mat-sidenav-container>
-    <mat-sidenav #sidenav [fixedInViewport]="true" [fixedTopGap]="60" mode="side">
-        <div class="side-nav-items">
-            <div>
-                <button mat-button routerLink="home" class="side-menu-item">
-                    <mat-icon class="mr">home</mat-icon>
-                    หน้าหลัก
+<mat-sidenav-container class="main-container">
+    <mat-sidenav #sidenav [fixedInViewport]="true" [fixedTopGap]="64" mode="over" class="custom-sidenav">
+        <div class="side-nav-content">
+            <div class="nav-header">เมนูหลัก</div>
+
+            <button mat-menu-item routerLink="home" (click)="sidenav.close()">
+                <mat-icon>home</mat-icon> หน้าหลัก
+            </button>
+
+            <ng-container *ngIf="checkLoinUser">
+                <button mat-menu-item routerLink="order" (click)="sidenav.close()">
+                    <mat-icon>account_balance_wallet</mat-icon> สถานะการสั่งซื้อ
                 </button>
-            </div>
-            <div>
-                <button mat-button routerLink="order" class="side-menu-item">
-                    <mat-icon class="mr">attach_money</mat-icon>
-                    สถาณะการสั่งซื้อของฉัน
+                <button mat-menu-item routerLink="shopping-card" (click)="sidenav.close()">
+                    <mat-icon>shopping_cart</mat-icon> ตะกร้าสินค้า
                 </button>
-            </div> 
-            <div>
-                <button mat-button routerLink="shopping-card" class="side-menu-item">
-                    <mat-icon class="mr">shopping_cart</mat-icon>
-                    ตระกร้าสินค้า
+                <mat-divider></mat-divider>
+                <button mat-menu-item [matMenuTriggerFor]="about" *ngIf="roleCode === 'admin'">
+                    <mat-icon>admin_panel_settings</mat-icon> ระบบจัดการร้าน
                 </button>
-            </div>
-            <div>
-                <button mat-button  [matMenuTriggerFor]="about1" class="side-menu-item" *ngIf="checkLoinUser"> 
-                    <mat-icon>account_circle</mat-icon> </button>
-            </div>
-            <div>
-                <button mat-button (click)="openAddLoginEmForm()" class="side-menu-item" *ngIf="!checkLoinUser">
-                    <mat-icon class="mr">login</mat-icon>
-                    Login
+                <button mat-menu-item [matMenuTriggerFor]="about1">
+                    <mat-icon>account_circle</mat-icon> บัญชีของฉัน
                 </button>
-            </div>           
+            </ng-container>
+
+            <button mat-menu-item (click)="openAddLoginEmForm(); sidenav.close()" *ngIf="!checkLoinUser">
+                <mat-icon>login</mat-icon> เข้าสู่ระบบ
+            </button>
         </div>
     </mat-sidenav>
+
+    <mat-sidenav-content>
+        <div class="page-wrapper">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
 </mat-sidenav-container>
+
 <mat-menu #about="matMenu">
-    <button mat-menu-item routerLink="addmin-order"> <mat-icon class="mr">attach_money</mat-icon>ยืนยันการสั่งซื้อ</button>
-    <button mat-menu-item routerLink="manage-product"> <mat-icon class="mr">inventory</mat-icon>จัดการสินค้า</button>
-    <button mat-menu-item routerLink="profile-all"> <mat-icon class="mr">badge</mat-icon>บัญชีทั้งหมด</button>
+    <button mat-menu-item routerLink="addmin-order">
+        <mat-icon>confirmation_number</mat-icon> ยืนยันการสั่งซื้อ
+    </button>
+    <button mat-menu-item routerLink="manage-product">
+        <mat-icon>inventory_2</mat-icon> จัดการสินค้า
+    </button>
+    <button mat-menu-item routerLink="profile-all">
+        <mat-icon>people</mat-icon> บัญชีทั้งหมด
+    </button>
 </mat-menu>
 
 <mat-menu #about1="matMenu">
-    <button mat-menu-item routerLink="profile"> <mat-icon class="mr">badge</mat-icon>บัญชีของฉัน</button>
-    <button mat-menu-item routerLink="address"> <mat-icon class="mr">pin_drop</mat-icon>ที่อยู่จัดส่ง</button>
-    <button mat-menu-item (click)="logout()" routerLink="home"> <mat-icon class="mr" >logout</mat-icon>ออกจากระบบ</button>
+    <button mat-menu-item routerLink="profile">
+        <mat-icon>badge</mat-icon> บัญชีของฉัน
+    </button>
+    <button mat-menu-item routerLink="address">
+        <mat-icon>pin_drop</mat-icon> ที่อยู่จัดส่ง
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="logout()">
+        <mat-icon color="warn">logout</mat-icon> ออกจากระบบ
+    </button>
 </mat-menu>

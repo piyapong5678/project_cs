@@ -1,86 +1,124 @@
-<div *ngFor="let send of SendList">
-    <div class="container" >
-        <mat-card><br>
-            <div class="container">
-                <div class="row row-cols-1 row-cols-md-2 g-4">
-                    <div class="col-sm-6">
-                        <nav class="navbar navbar-light bg-light mb-3" >
-                            <div class="container-fluid">
-                                <a class="navbar-brand">รายการชำระเงิน</a>
-                                <span class="example-spacer"></span>
-                            </div>
-                        </nav>
-                        <div *ngFor="let sendCardPd of send.cardProductModel">
-                            <div class="card mb-3" style="max-width: 40em;flex-direction: row;box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; background-color: var(--bs-primary-bg-subtle)!important;color: #000000;">
-                                <img src="{{sendCardPd.productModel.image_product}}" class="card-img-top" alt="..." style="max-width: 25%;margin: auto;padding: 0.5em;border-radius: 0.7em;">
-                                <div class="card-body" style="    display: flex; justify-content: space-between;">
-                                    <div class="text-section" style=" max-width: 60%;">
-                                        <h2 class="card-title">{{sendCardPd.productModel.name_product}}</h2>
-                                        <p class="card-text">{{sendCardPd.productModel.detail_product}}.</p>
-                                    </div>
-                                    <div class="cta-section" style="max-width: 40%;display: flex;flex-direction: column;align-items: flex-end;justify-content: space-between;">
-                                        <div>x{{sendCardPd.number_card}}</div>
-                                        <div >฿{{sendCardPd.productModel.price_product}}.00</div>
-                                    </div>
-                                </div>
-                            </div><br>
+<div class="container py-5">
+    <div class="d-flex align-items-center mb-5 pb-3 border-bottom">
+        <div class="icon-circle bg-primary-subtle text-primary me-3">
+            <mat-icon>payments</mat-icon>
+        </div>
+        <div>
+            <h2 class="mb-0 fw-extrabold tracking-tight">รายการชำระเงิน</h2>
+            <p class="text-muted small mb-0">กรุณาตรวจสอบรายการสินค้าและแจ้งหลักฐานการโอนเงิน</p>
+        </div>
+    </div>
+
+    <div *ngFor="let send of SendList" class="order-wrapper mb-5">
+        <mat-card class="order-card shadow-lg border-0">
+            <div class="card-header bg-dark text-white p-3 d-flex justify-content-between align-items-center rounded-top">
+                <span class="fw-medium d-flex align-items-center">
+                    <mat-icon class="me-2 opacity-75">shopping_bag</mat-icon> 
+                    <span class="ls-1">ORDER ID: {{send.id_send}}</span>
+                </span>
+                <span class="badge bg-primary fw-normal px-3">รอการชำระเงิน</span>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="row g-0">
+                    <div class="col-lg-7 border-end p-4 bg-light-subtle">
+                        <div class="section-label mb-3">
+                            <span class="text-uppercase ls-2 fw-bold text-muted small">Items in Order</span>
                         </div>
-                            <nav class="navbar navbar-light bg-light" >
-                                <div class="container-fluid">
-                                    <button mat-button >ยอดชำระเงิน: ฿{{send.paymentModel.total_payment}}.00</button>
+
+                        <div class="product-scroll-area pe-2 mb-4" style="max-height: 380px; overflow-y: auto;">
+                            <div *ngFor="let sendCardPd of send.cardProductModel" class="product-item-card mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="product-img-wrapper">
+                                        <img [src]="sendCardPd.productModel.image_product" alt="Product">
+                                    </div>
+                                    <div class="ms-3 flex-grow-1">
+                                        <h6 class="mb-1 fw-bold text-dark">{{sendCardPd.productModel.name_product}}</h6>
+                                        <p class="small text-secondary mb-2 line-clamp-1">{{sendCardPd.productModel.detail_product}}</p>
+                                        <div class="d-flex justify-content-between align-items-end">
+                                            <span class="qty-tag">จำนวน {{sendCardPd.number_card}}</span>
+                                            <span class="price-text">฿{{sendCardPd.productModel.price_product | number:'.2-2'}}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </nav>
-                        <div class="card-body">
-                            <div class="card text-dark bg-light mb-3" >
-                                <mat-toolbar color="primary">
-                                    <span>ที่อยู่จัดส่ง</span>
-                                </mat-toolbar>
-                                <div class="card-body">
-                                    <h3 class="card-title">{{send.addressModel.firstname_address}}&nbsp;{{send.addressModel.lastname_address}}</h3>
-                                    <p class="card-text">บ้านเลขที่&nbsp;{{send.addressModel.housenumber_address}}&nbsp;หมู่&nbsp;{{send.addressModel.village_address}}&nbsp;บ้าน/อาคาร.{{send.addressModel.housename_address}} 
-                                        &nbsp;ซอย.{{send.addressModel.subdistrict_address}}&nbsp;ถนน/แยก.{{send.addressModel.road_address}}&nbsp;ตำบล/เขต.{{send.addressModel.district_address}}&nbsp;อำเภอ/แขวง.{{send.addressModel.prefecture_address}}&nbsp;จังหวัด.{{send.addressModel.province_address}}&nbsp;
-                                        {{send.addressModel.postcode_address}}&nbsp;เบอร์โทร.{{send.addressModel.phone_address}}.</p>
+                            </div>
+                        </div>
+
+                        <div class="summary-box p-3 rounded-3 mb-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold text-dark">ยอดชำระเงินรวม</span>
+                                <span class="total-amount">฿{{send.paymentModel.total_payment | number:'.2-2'}}</span>
+                            </div>
+                        </div>
+
+                        <div class="address-box border-0 shadow-sm rounded-3">
+                            <div class="address-header p-2 px-3 rounded-top d-flex align-items-center">
+                                <mat-icon class="text-primary me-2" style="font-size: 18px; width: 18px; height: 18px;">local_shipping</mat-icon>
+                                <span class="fw-bold text-primary small text-uppercase">ที่อยู่จัดส่ง</span>
+                            </div>
+                            <div class="p-3 bg-white rounded-bottom">
+                                <h6 class="fw-bold mb-1 text-dark">{{send.addressModel.firstname_address}} {{send.addressModel.lastname_address}}</h6>
+                                <p class="small text-muted mb-0 lh-base address-text">
+                                    {{send.addressModel.housenumber_address}} ม.{{send.addressModel.village_address}} {{send.addressModel.housename_address}} 
+                                    ซ.{{send.addressModel.subdistrict_address}} ถ.{{send.addressModel.road_address}} ต.{{send.addressModel.district_address}} 
+                                    อ.{{send.addressModel.prefecture_address}} จ.{{send.addressModel.province_address}} {{send.addressModel.postcode_address}}
+                                </p>
+                                <div class="mt-2 pt-2 border-top">
+                                    <small class="text-dark fw-bold"><mat-icon class="align-middle me-1" style="font-size: 14px;">phone</mat-icon> {{send.addressModel.phone_address}}</small>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <button mat-button>
-                            <mat-icon class="mr">account_balance</mat-icon>
-                            ช่องทางการชำระ
-                        </button>
-                        <br>
-                        <br>
-                        <div class="card text-dark  mb-3" style="max-width: 25rem; background-color: #6610f2;">
-                            <div class="card-body">
-                                <h4 class="card-text" style="color: #fff;">ไทยพาณิชย์: 4110213377</h4>
+
+                    <div class="col-lg-5 p-4 bg-white">
+                        <div class="sticky-top" style="top: 20px; z-index: 1;">
+                            <div class="section-label mb-4 text-center">
+                                <span class="text-uppercase ls-2 fw-bold text-primary small">Payment Options</span>
+                            </div>
+
+                            <div class="bank-container mb-4">
+                                <div class="bank-card scb mb-3">
+                                    <div class="bank-logo">SCB</div>
+                                    <div class="bank-info">
+                                        <span class="bank-name">ธนาคารไทยพาณิชย์</span>
+                                        <span class="account-number">411-021337-7</span>
+                                    </div>
+                                    <mat-icon class="bank-chip">contactless</mat-icon>
+                                </div>
+                                <div class="bank-card ktb">
+                                    <div class="bank-logo">KTB</div>
+                                    <div class="bank-info">
+                                        <span class="bank-name">ธนาคารกรุงไทย (พพ)</span>
+                                        <span class="account-number">062-181356-0</span>
+                                    </div>
+                                    <mat-icon class="bank-chip">contactless</mat-icon>
+                                </div>
+                            </div>
+
+                            <div class="upload-area mb-4">
+                                <label class="upload-label mb-3">
+                                    <mat-icon class="me-2">cloud_upload</mat-icon> แนบหลักฐานการโอนเงิน
+                                </label>
+                                <div class="custom-file-input">
+                                    <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
+                                    <small class="text-muted d-block mt-2">JPG, PNG หรือ PDF ไม่เกิน 2MB</small>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-3">
+                                <button mat-flat-button color="primary" class="btn-confirm rounded-pill py-4" (click)="onPayment(send.id_send)" [disabled]="fileCheck">
+                                    <span class="d-flex align-items-center justify-content-center">
+                                        <mat-icon class="me-2">verified</mat-icon> ยืนยันการชำระเงิน
+                                    </span>
+                                </button>
+                                <button mat-button class="btn-cancel text-danger rounded-pill py-2" (click)="cancel(send.id_send)">
+                                    ยกเลิกคำสั่งซื้อนี้
+                                </button>
                             </div>
                         </div>
-                        <div class="card text-dark  mb-3" style="max-width: 25rem; background-color: #108cf2;">
-                            <div class="card-body">
-                                <h4 class="card-text" style="color: #fff;">กรุงไทย พพ: 0621813560</h4>
-                            </div>
-                        </div>
-                        <button mat-button>
-                            <mat-icon class="mr">receipt_long</mat-icon>
-                            แจ้งหลักฐานการชำระ
-                        </button>
-                        <div>
-                            <img src="" alt="">
-                            <input class="form-control" type="file" id="formFile" style="width: 40%;" (change)="onFileSelected($event)">
-                        </div><br>
-                        <div class="row justify-content-start">
-                            <div class="col">
-                                <button type="button" class="btn btn-primary" style="width: 90%;" (click)="onPayment(send.id_send)" [disabled]="fileCheck">ยืนยัน</button>
-                            </div>
-                            <div class="col">
-                                <button type="button" class="btn btn btn-danger" style="width: 90%;" (click)="cancel(send.id_send)">ยกเลิกสินค้า</button>
-                            </div>
-                        </div><br>
                     </div>
                 </div>
             </div>
-    
-        </mat-card><br><br>
+        </mat-card>
     </div>
 </div>

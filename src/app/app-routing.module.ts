@@ -22,24 +22,25 @@ import { FooterComponent } from './footer/footer.component';
 
 
 const routes: Routes = [
-  { path:'', redirectTo: 'home', pathMatch: 'full'},
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'order', component: OrderComponent },
   { path: 'shopping-card', component: ShoppingCardComponent },
-  { path: 'product/:id/press', component: PressToOrderComponent},
-  { path: 'propduct', component: ProductComponent},
-  { path: 'profile-all', component: ProfileAllComponent},
-  { path: 'address', component: AddressComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'edit-Address', component: EditAddressComponent},
-  { path: 'edit-product', component: EditProductComponent},
-  { path: 'profile', component: ProfileComponent},
-  { path: 'addmin-order', component: AddminOrderComponent},
-  { path: 'manage-product', component: ManageProductComponent},
-  { path: 'submit-card/:id', component: SubmitCardComponent},
-  { path: 'wait-payment', component: WaitPaymentComponent},
-  { path: 'footer', component: FooterComponent}
-
+  { path: 'product/:id/press', component: PressToOrderComponent },
+  { path: 'product', component: ProductComponent }, // แก้ไขคำสะกดผิด
+  { path: 'profile-all', component: ProfileAllComponent },
+  { path: 'address', component: AddressComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'edit-Address', component: EditAddressComponent },
+  { path: 'edit-product', component: EditProductComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'addmin-order', component: AddminOrderComponent },
+  { path: 'manage-product', component: ManageProductComponent },
+  { path: 'submit-card/:id', component: SubmitCardComponent },
+  { path: 'wait-payment', component: WaitPaymentComponent },
+  { path: 'footer', component: FooterComponent },
+  // กรณีพิมพ์ URL มั่ว ให้เด้งกลับหน้า home
+  { path: '**', redirectTo: 'home' } 
 ];
 
 @NgModule({

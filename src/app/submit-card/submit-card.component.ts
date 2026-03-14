@@ -67,7 +67,6 @@ export class SubmitCardComponent implements OnInit{
     
 
 Submit() {
-  
   Swal.fire({
     title: 'ยืนยันการแจ้งชำระเงิน?',
     text: "ตรวจสอบที่อยู่และรายการสินค้าให้เรียบร้อยก่อนกดยืนยัน",
@@ -76,12 +75,9 @@ Submit() {
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#757575',
     confirmButtonText: 'ยืนยันการส่ง',
-    cancelButtonText: 'ยกเลิก'
+    cancelButtonText: 'กยกเลิก'
   }).then((result) => {
-    
     if (result.isConfirmed) {
-      
-
       Swal.fire({
         title: 'กำลังส่งข้อมูล...',
         allowOutsideClick: false,
@@ -104,6 +100,8 @@ Submit() {
           this.sent = response as Sent;
           this.onPayment(this.sent.id_send);
 
+          // ✅ เพิ่มบรรทัดนี้: แจ้งให้ Navbar/Product อัปเดตจำนวนสินค้า (จะกลายเป็น 0 เพราะถูกย้ายไป Order แล้ว)
+          window.dispatchEvent(new Event('cartUpdated'));
 
           Swal.fire({
             icon: 'success',
@@ -116,7 +114,6 @@ Submit() {
           });
         },
         error: (err) => {
-          
           Swal.fire({
             icon: 'error',
             title: 'เกิดข้อผิดพลาด!',
@@ -145,21 +142,24 @@ Submit() {
       });
     }
     
-    cross(){
-      let id_user = JSON.parse(sessionStorage.getItem('user')!).id_user;
-      this.Address_id = this.router1.snapshot.paramMap.get('id');
-      let data = {
-        id_user: id_user,
-        id_address: this.Address_id,
-        status_send: "1",
-        id_card: JSON.stringify(this.CardList.map(data => data.id_card)),
-        paymentModel: {total_payment: this.total,status_payment:"0"},
-      }
-      this.http.post(this.urlbackend +'/api/v1/send/data',data).subscribe(response=>{
-        // console.log(response);
-        this.router2.navigate(['home']);
-      })
-    }
+    cross() {
+  let id_user = JSON.parse(sessionStorage.getItem('user')!).id_user;
+  this.Address_id = this.router1.snapshot.paramMap.get('id');
+  let data = {
+    id_user: id_user,
+    id_address: this.Address_id,
+    status_send: "1",
+    id_card: JSON.stringify(this.CardList.map(data => data.id_card)),
+    paymentModel: { total_payment: this.total, status_payment: "0" },
+  }
+  
+  this.http.post(this.urlbackend + '/api/v1/send/data', data).subscribe(response => {
+    // ✅ เพิ่มบรรทัดนี้: แม้จะกดข้าม แต่สินค้าถูกย้ายไปรอชำระเงินแล้ว ตะกร้าต้องว่างเปล่า
+    window.dispatchEvent(new Event('cartUpdated'));
+    
+    this.router2.navigate(['home']);
+  });
+}
     
     totalCard(){
       this.total = 0;

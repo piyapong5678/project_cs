@@ -39,8 +39,8 @@ export class EditProductComponent implements OnInit {
             detail_product: response.detail_product,
             number_product: response.number_product,
             price_product: response.price_product,
-            type_product: response.type_product
-            
+            type_product: response.type_product,
+            image_product:  response.image_product
           });
         },
         error: (err) => {
