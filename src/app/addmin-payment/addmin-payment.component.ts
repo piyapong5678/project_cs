@@ -15,7 +15,7 @@ export class AddminPaymentComponent implements OnInit{
 
   ngOnInit(): void {
     
-    this.http.get<Sent[]>(this.urlbackend + '/api/v1/send/addmin1').pipe()
+    this.http.get<Sent[]>(this.urlbackend +'/api/v1/send/addmin1').pipe()
     .subscribe((response: Sent[]) => {  
       this.SendList = response;
       console.log("sendAddmin1==>",this.SendList);
