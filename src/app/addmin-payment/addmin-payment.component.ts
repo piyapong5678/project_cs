@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 })
 export class AddminPaymentComponent implements OnInit{
   SendList: Sent[] = [];
-  urlbackend: string = 'https://backend-project-cs.onrender.com';
+  urlbackend = APP_CONFIG.URL_BACKEND;
   constructor(private http: HttpClient){}
 
   ngOnInit(): void {
