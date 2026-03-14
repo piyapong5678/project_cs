@@ -6,5 +6,5 @@
 
 export const APP_CONFIG = {
 
-  URL_BACKEND: 'https://backend-project-cs.onrender.com'
+  URL_BACKEND: 'https://backend-piyapong.onrender.com'
 };
