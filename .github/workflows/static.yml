@@ -29,12 +29,14 @@ jobs:
         run: npm install
 
       - name: Build
+        # แก้ตรงนี้เป็น project_cs ตามชื่อ Repository บน GitHub (เพื่อให้ URL ถูกต้อง)
         run: npx ng build --configuration production --base-href /project_cs/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/project_cs
+          # ✅ แก้ตรงนี้: เปลี่ยนจาก project_cs เป็น project-cs (ตาม outputPath ใน angular.json)
+          path: dist/project-cs
 
   deploy:
     needs: build_site
