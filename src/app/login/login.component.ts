@@ -7,7 +7,7 @@ import { LoginDataModel } from '../shared/models/loginData.model';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG } from '../shared/constants/constants';
 import Swal from 'sweetalert2'; 
-
+import { Router } from '@angular/router'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  constructor(private _dilog: MatDialog, private http: HttpClient) { }
+  constructor(private _dilog: MatDialog, private http: HttpClient,private router: Router) { }
 
   openRegisterEmForm() {
     const dialogRef = this._dilog.open(RegisterComponent, {
@@ -66,7 +66,7 @@ onLogin() {
           showConfirmButton: false
         }).then(() => {
 
-          window.location.href = '/home'; 
+          this.router.navigate(['home']); 
         });
 
       
