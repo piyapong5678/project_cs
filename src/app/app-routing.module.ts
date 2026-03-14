@@ -40,7 +40,7 @@ const routes: Routes = [
   { path: 'wait-payment', component: WaitPaymentComponent },
   { path: 'footer', component: FooterComponent },
   // กรณีพิมพ์ URL มั่ว ให้เด้งกลับหน้า home
-  { path: '**', redirectTo: 'home' } 
+  // { path: '**', redirectTo: 'home' } 
 ];
 
 @NgModule({
