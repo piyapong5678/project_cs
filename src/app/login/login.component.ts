@@ -70,8 +70,9 @@ export class LoginComponent implements OnInit {
             showConfirmButton: false,
           }).then(() => {
             this.router.navigate(['home']).then(() => {
-              window.dispatchEvent(new Event('cartUpdated')); // หรือสร้าง Event ใหม่ชื่อ userLoggedIn ก็ได้ครับ
-            });
+        // บังคับให้หน้าจอรีเฟรชส่วน Navbar
+        window.location.reload(); 
+      });
           });
         } else {
           sessionStorage.clear();
