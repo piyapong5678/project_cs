@@ -1,0 +1,83 @@
+.store-hero {
+    position: relative;
+    height: 450px;
+    width: 100%;
+    overflow: hidden;
+
+    .map-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7));
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.store-logo {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 4px solid white;
+    object-fit: cover;
+    transition: transform 0.3s;
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+.shadow-text {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.mt-n5 {
+    margin-top: -50px !important; // ดึงการ์ดขึ้นไปทับแผนที่เล็กน้อยให้ดูมีมิติ
+    position: relative;
+    z-index: 3;
+}
+
+.info-card {
+    border-radius: 15px;
+    border: none;
+    .icon-circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        &.bg-primary-light {
+            background: #e3f2fd;
+        }
+        &.bg-warn-light {
+            background: #fff3e0;
+        }
+    }
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    mat-icon {
+        font-size: 20px;
+    }
+}
+
+.address-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}

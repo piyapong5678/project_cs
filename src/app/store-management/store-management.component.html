@@ -1,0 +1,85 @@
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="fas fa-store me-2"></i>จัดการข้อมูลร้านค้า</h4>
+        </div>
+        <div class="card-body">
+            <form #storeForm="ngForm">
+                <h5 class="text-primary border-bottom pb-2 mb-3">ข้อมูลทั่วไป</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">ชื่อร้าน</label>
+                        <input type="text" class="form-control" [(ngModel)]="storeData.storename" name="storename"
+                            placeholder="ระบุชื่อร้าน">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">ชื่อเจ้าของร้าน</label>
+                        <input type="text" class="form-control" [(ngModel)]="storeData.ownername" name="ownername"
+                            placeholder="ชื่อ-นามสกุล">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">อีเมลติดต่อ</label>
+                        <input type="email" class="form-control" [(ngModel)]="storeData.email" name="email"
+                            placeholder="example@mail.com">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">เบอร์โทรศัพท์</label>
+                        <input type="text" class="form-control" [(ngModel)]="storeData.phone" name="phone"
+                            placeholder="08x-xxx-xxxx">
+                    </div>
+                </div>
+
+                <h5 class="text-primary border-bottom pb-2 mb-3">ที่อยู่ร้าน</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <label class="form-label">บ้านเลขที่</label>
+                        <input type="text" class="form-control" [(ngModel)]="storeData.addressno" name="addressno">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">หมู่ที่</label>
+                        <input type="text" class="form-control" [(ngModel)]="storeData.moo" name="moo">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">ตำบล/แขวง</label>
+                        <input type="text" class="form-control" [(ngModel)]="storeData.subdistrict" name="subdistrict">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">อำเภอ/เขต</label>
+                        <input type="text" class="form-control" [(ngModel)]="storeData.district" name="district">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">จังหวัด</label>
+                        <input type="text" class="form-control" [(ngModel)]="storeData.province" name="province">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">รหัสไปรษณีย์</label>
+                        <input type="text" class="form-control" [(ngModel)]="storeData.zipcode" name="zipcode">
+                    </div>
+                </div>
+
+                <h5 class="text-primary border-bottom pb-2 mb-3">โลโก้ร้านค้า</h5>
+                <div class="row align-items-center mb-4">
+                    <div class="col-md-8">
+                        <label class="form-label">ลิงก์รูปภาพ (URL)</label>
+                        <input type="text" class="form-control" [(ngModel)]="storeData.storeimage" name="storeimage"
+                            placeholder="https://example.com/image.jpg">
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="mt-3">
+                            <img [src]="storeData.storeimage || 'assets/no-image.png'" alt="Preview"
+                                class="img-thumbnail shadow-sm" style="max-height: 120px;">
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="text-end">
+                    <button type="button" class="btn btn-secondary me-2" (click)="loadData()">คืนค่าเดิม</button>
+                    <button type="button" class="btn btn-success px-5" (click)="saveData()">
+                        <i class="fas fa-save me-2"></i>บันทึกข้อมูล
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
