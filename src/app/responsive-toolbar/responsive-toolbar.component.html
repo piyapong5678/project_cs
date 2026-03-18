@@ -64,10 +64,27 @@
                     <mat-icon>shopping_cart</mat-icon> ตะกร้าสินค้า
                 </button>
 
+                <ng-container *ngIf="roleCode === 'admin'">
+                    <mat-divider></mat-divider>
+                    <button mat-menu-item [matMenuTriggerFor]="adminMenu">
+                        <mat-icon>admin_panel_settings</mat-icon> ระบบจัดการร้าน
+                    </button>
+                </ng-container>
+
+                <mat-divider></mat-divider>
+                
+                <button mat-menu-item routerLink="profile" (click)="sidenav.close()">
+                    <mat-icon>badge</mat-icon> บัญชีของฉัน
+                </button>
+
+                <button mat-menu-item routerLink="address" (click)="sidenav.close()">
+                    <mat-icon>pin_drop</mat-icon> ที่อยู่จัดส่ง
+                </button>
+
                 <mat-divider></mat-divider>
 
-                <button mat-menu-item [matMenuTriggerFor]="adminMenu" *ngIf="roleCode === 'admin'">
-                    <mat-icon>admin_panel_settings</mat-icon> ระบบจัดการร้าน
+                <button mat-menu-item (click)="logout(); sidenav.close()">
+                    <mat-icon color="warn">logout</mat-icon> ออกจากระบบ
                 </button>
             </ng-container>
 
