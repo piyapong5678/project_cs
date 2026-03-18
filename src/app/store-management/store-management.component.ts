@@ -7,30 +7,29 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-store-management',
   templateUrl: './store-management.component.html',
-  styleUrls: ['./store-management.component.scss']
+  styleUrls: ['./store-management.component.scss'],
 })
 export class StoreManagementComponent implements OnInit {
-
   // กำหนด Path ภายใน Component โดยดึงมาจาก constants.ts
   private url = `${APP_CONFIG.URL_BACKEND}/api/v1/store`;
 
   storeData: any = {
-    id_store: 'S001', 
+    id_store: 'S001',
     storename: '',
     ownername: '',
     email: '',
     address_no: '',
     moo: '',
-    subdistrict: '',
+    sub_district: '',
     district: '',
     province: '',
-    zipcode: '',
+    zip_code: '',
     phone: '',
-    image_store: ''
+    image_store: '',
   };
 
   // Inject HttpClient เข้ามาที่นี่โดยตรง
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -42,7 +41,7 @@ export class StoreManagementComponent implements OnInit {
       next: (res: any) => {
         if (res) this.storeData = res;
       },
-      error: (err) => console.error('Error loading data', err)
+      error: (err) => console.error('Error loading data', err),
     });
   }
 
@@ -50,11 +49,11 @@ export class StoreManagementComponent implements OnInit {
   saveData() {
     Swal.fire({
       title: 'ยืนยันการบันทึก?',
-      text: "คุณต้องการแก้ไขข้อมูลร้านค้าใช่หรือไม่",
+      text: 'คุณต้องการแก้ไขข้อมูลร้านค้าใช่หรือไม่',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'ตกลง',
-      cancelButtonText: 'ยกเลิก'
+      cancelButtonText: 'ยกเลิก',
     }).then((result) => {
       if (result.isConfirmed) {
         // ใช้ this.http.put โดยตรง
@@ -63,7 +62,7 @@ export class StoreManagementComponent implements OnInit {
             Swal.fire('สำเร็จ!', 'แก้ไขข้อมูลเรียบร้อย', 'success');
             this.loadData();
           },
-          error: (err) => Swal.fire('ผิดพลาด!', 'บันทึกไม่ได้', 'error')
+          error: (err) => Swal.fire('ผิดพลาด!', 'บันทึกไม่ได้', 'error'),
         });
       }
     });
