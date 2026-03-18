@@ -18,14 +18,14 @@ export class StoreManagementComponent implements OnInit {
     storename: '',
     ownername: '',
     email: '',
-    address_no: '',
+    addressno: '',
     moo: '',
-    sub_district: '',
+    subdistrict: '',
     district: '',
     province: '',
-    zip_code: '',
+    zipcode: '',
     phone: '',
-    image_store: '',
+    storeimage: '',
   };
 
   // Inject HttpClient เข้ามาที่นี่โดยตรง

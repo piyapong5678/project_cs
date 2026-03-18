@@ -29,7 +29,7 @@
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
                         <label class="form-label">บ้านเลขที่</label>
-                        <input type="text" class="form-control" [(ngModel)]="storeData.address_no" name="address_no">
+                        <input type="text" class="form-control" [(ngModel)]="storeData.addressno" name="addressno">
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">หมู่ที่</label>
@@ -37,19 +37,15 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">ตำบล/แขวง</label>
-                        <input type="text" class="form-control" [(ngModel)]="storeData.sub_district" name="sub_district">
+                        <input type="text" class="form-control" [(ngModel)]="storeData.subdistrict" name="subdistrict">
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">อำเภอ/เขต</label>
                         <input type="text" class="form-control" [(ngModel)]="storeData.district" name="district">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">จังหวัด</label>
-                        <input type="text" class="form-control" [(ngModel)]="storeData.province" name="province">
-                    </div>
-                    <div class="col-md-6">
                         <label class="form-label">รหัสไปรษณีย์</label>
-                        <input type="text" class="form-control" [(ngModel)]="storeData.zip_code" name="zip_code">
+                        <input type="text" class="form-control" [(ngModel)]="storeData.zipcode" name="zipcode">
                     </div>
                 </div>
 
@@ -57,11 +53,11 @@
                 <div class="row align-items-center mb-4">
                     <div class="col-md-8">
                         <label class="form-label">ลิงก์รูปภาพ (URL)</label>
-                        <input type="text" class="form-control" [(ngModel)]="storeData.image_store" name="image_store">
+                        <input type="text" class="form-control" [(ngModel)]="storeData.storeimage" name="storeimage">
                     </div>
                     <div class="col-md-4 text-center">
                         <div class="mt-3">
-                            <img [src]="storeData.image_store || 'assets/no-image.png'" alt="Preview"
+                            <img [src]="storeData.storeimage || 'assets/no-image.png'" alt="Preview"
                                 class="img-thumbnail shadow-sm" style="max-height: 120px;">
                         </div>
                     </div>
