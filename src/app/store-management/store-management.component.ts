@@ -36,14 +36,20 @@ export class StoreManagementComponent implements OnInit {
   }
 
   // 1. ฟังก์ชันดึงข้อมูลร้านค้า (เขียนสดใน Component)
-  loadData() {
-    this.http.get(`${this.url}/get`).subscribe({
-      next: (res: any) => {
-        if (res) this.storeData = res;
-      },
-      error: (err) => console.error('Error loading data', err),
-    });
-  }
+loadData() {
+  this.http.get(`${this.url}/get`).subscribe({
+    next: (res: any) => {
+      console.log('Data from Backend:', res); // ดูในหน้า Console ว่าข้อมูลมาไหม
+      if (res) {
+        this.storeData = res;
+      }
+    },
+    error: (err) => {
+      console.error('Error loading data', err);
+      // ถ้า Error 500 ยังอยู่ แสดงว่า Java ยังพังที่จุดเดิม
+    }
+  });
+}
 
   // 2. ฟังก์ชันแก้ไขข้อมูลร้านค้า (เขียนสดใน Component)
   saveData() {
