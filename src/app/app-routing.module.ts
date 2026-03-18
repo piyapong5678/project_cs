@@ -19,8 +19,8 @@ import { ManageProductComponent } from './manage-product/manage-product.componen
 import { WaitPaymentComponent } from './wait-payment/wait-payment.component';
 import { SubmitCardComponent } from './submit-card/submit-card.component';
 import { FooterComponent } from './footer/footer.component';
-
-
+import { StoreManagementComponent } from './store-management/store-management.component'; // นำเข้า StoreManagementComponent
+import { StoreDisplayComponent } from './store-display/store-display.component'; // นำเข้า StoreDisplayComponent
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
@@ -39,6 +39,8 @@ const routes: Routes = [
   { path: 'submit-card/:id', component: SubmitCardComponent },
   { path: 'wait-payment', component: WaitPaymentComponent },
   { path: 'footer', component: FooterComponent },
+  { path: 'store-management', component: StoreManagementComponent },
+  { path: 'store/:id', component: StoreDisplayComponent },
   // กรณีพิมพ์ URL มั่ว ให้เด้งกลับหน้า home
   { path: '**', redirectTo: 'home' } 
 ];

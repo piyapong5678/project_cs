@@ -3,13 +3,17 @@
         <mat-icon>menu</mat-icon>
     </button>
 
-    <span id="menuTitle">My App</span>
+    <span id="menuTitle">ForYourFish</span>
 
     <div class="spacer"></div>
 
     <div class="top-menu-group">
         <button mat-button routerLink="home" routerLinkActive="active-link" class="top-menu-item">
             <mat-icon>home</mat-icon> หน้าหลัก
+        </button>
+
+        <button mat-button routerLink="store/:id" routerLinkActive="active-link" class="top-menu-item">
+            <mat-icon>storefront</mat-icon> ข้อมูลร้านค้า
         </button>
 
         <ng-container *ngIf="checkLoinUser">
@@ -22,11 +26,12 @@
                 ตะกร้าสินค้า
             </button>
 
-            <button mat-button [matMenuTriggerFor]="about" *ngIf="roleCode === 'admin'" class="top-menu-item admin-btn">
+            <button mat-button [matMenuTriggerFor]="adminMenu" *ngIf="roleCode === 'admin'"
+                class="top-menu-item admin-btn">
                 <mat-icon>admin_panel_settings</mat-icon> เจ้าของร้าน <mat-icon>expand_more</mat-icon>
             </button>
 
-            <button mat-icon-button [matMenuTriggerFor]="about1" class="top-menu-item">
+            <button mat-icon-button [matMenuTriggerFor]="userMenu" class="top-menu-item">
                 <mat-icon>account_circle</mat-icon>
             </button>
         </ng-container>
@@ -47,6 +52,10 @@
                 <mat-icon>home</mat-icon> หน้าหลัก
             </button>
 
+            <button mat-menu-item routerLink="store/:id" (click)="sidenav.close()">
+                <mat-icon>storefront</mat-icon> ข้อมูลร้านค้า
+            </button>
+
             <ng-container *ngIf="checkLoinUser">
                 <button mat-menu-item routerLink="order" (click)="sidenav.close()">
                     <mat-icon>account_balance_wallet</mat-icon> สถานะการสั่งซื้อ
@@ -54,12 +63,11 @@
                 <button mat-menu-item routerLink="shopping-card" (click)="sidenav.close()">
                     <mat-icon>shopping_cart</mat-icon> ตะกร้าสินค้า
                 </button>
+
                 <mat-divider></mat-divider>
-                <button mat-menu-item [matMenuTriggerFor]="about" *ngIf="roleCode === 'admin'">
+
+                <button mat-menu-item [matMenuTriggerFor]="adminMenu" *ngIf="roleCode === 'admin'">
                     <mat-icon>admin_panel_settings</mat-icon> ระบบจัดการร้าน
-                </button>
-                <button mat-menu-item [matMenuTriggerFor]="about1">
-                    <mat-icon>account_circle</mat-icon> บัญชีของฉัน
                 </button>
             </ng-container>
 
@@ -76,7 +84,10 @@
     </mat-sidenav-content>
 </mat-sidenav-container>
 
-<mat-menu #about="matMenu">
+<mat-menu #adminMenu="matMenu">
+    <button mat-menu-item routerLink="store-management">
+        <mat-icon>settings</mat-icon> แก้ไขข้อมูลร้านค้า
+    </button>
     <button mat-menu-item routerLink="addmin-order">
         <mat-icon>confirmation_number</mat-icon> ยืนยันการสั่งซื้อ
     </button>
@@ -88,7 +99,7 @@
     </button>
 </mat-menu>
 
-<mat-menu #about1="matMenu">
+<mat-menu #userMenu="matMenu">
     <button mat-menu-item routerLink="profile">
         <mat-icon>badge</mat-icon> บัญชีของฉัน
     </button>

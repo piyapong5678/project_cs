@@ -56,6 +56,8 @@ import { SubmitCardComponent } from './submit-card/submit-card.component';
 import { FooterComponent } from './footer/footer.component';
 import { RecordComponent } from './record/record.component';
 import { AddminCancelComponent } from './addmin-cancel/addmin-cancel.component';
+import { StoreManagementComponent } from './store-management/store-management.component';
+import { StoreDisplayComponent } from './store-display/store-display.component';
 
 
 
@@ -97,6 +99,8 @@ import { AddminCancelComponent } from './addmin-cancel/addmin-cancel.component';
       FooterComponent,
       RecordComponent,
       AddminCancelComponent,
+      StoreManagementComponent,
+      StoreDisplayComponent,
 
     
   ],
